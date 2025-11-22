@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshBites - Menú Semanal</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Configuración personalizada de Tailwind y la fuente Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        :root {
+            --color-primary: #10b981; /* Verde esmeralda (esmerald-500) */
+            --color-secondary: #fbbf24; /* Amarillo ámbar (amber-400) */
+            --color-background: #f8f8f8;
+            --color-text-dark: #1f2937;
+            --color-support-bg: #ecfdf5; /* green-50, para el fondo del formulario */
+            --color-dark-green: #047857; /* dark-green, para el encabezado de personalización */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+        }
+
+        /* Estilo para simular el borde exterior del teléfono (Ancho fijo como en la imagen) */
+        .mobile-frame {
+            max-width: 360px; /* Tamaño típico de móvil pequeño para replicar la densidad */
+            height: 90vh; /* Ajustado para la vista inmersiva */
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 32px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        
+
+        /* ------------------------------------------- */
+        /* ESTILOS DE BOTONES Y TARJETAS */
+        /* ------------------------------------------- */
+
+        /* Estilo para el botón Modificar (Amarillo) */
+        .btn-modify {
+            background-color: var(--color-primary);
+            color: white;
+            font-weight: 600;
+            transition: all 0.1s;
+            padding: 4px 12px;
+            font-size: 0.75rem; /* text-xs */
+            border-radius: 9999px; /* rounded-full */
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+        }
+        .btn-modify:hover {
+            background-color: #059669;
+        }
+        
+        /* Estilo para el botón Añadir (Verde) */
+        .btn-add {
+            background-color: var(--color-primary);
+            color: white;
+            font-weight: 600;
+            transition: all 0.1s;
+            padding: 4px 12px;
+            font-size: 0.75rem; /* text-xs */
+            border-radius: 9999px; /* rounded-full */
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+        }
+        .btn-add:hover {
+            background-color: #059669;
+        }
+
+        /* Estilo para el indicador de precio */
+        .price {
+            color: var(--color-primary);
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 700;
+            margin-top: 0.25rem;
+        }
+        
+        /* Contenedor de la tarjeta de plato */
+        .meal-card {
+            background-color: white;
+            padding: 0.75rem; 
+            border-radius: 0.75rem; 
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* La barra vertical verde a la izquierda */
+            border-left: 5px solid var(--color-primary); 
+            padding-left: 1rem; 
+        }
+
+        /* Estilo para la barra del menú principal */
+        .main-menu-bar {
+            background-color: var(--color-primary);
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-align: center;
+            padding: 0.75rem 0;
+            border-radius: 0.5rem; /* Añadir un poco de redondeo a la barra principal de las vistas */
+        }
+        /* Eliminar el redondeo para la barra de título del Menú (para que parezca más integrado) */
+        #view-menu .main-menu-bar, #view-personalize-meal .main-menu-bar, #view-cart .main-menu-bar {
+             border-radius: 0;
+        }
+
+
+        /* Iconos de la barra de navegación */
+        .nav-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Contenedor de botones en la tarjeta (alineación vertical) */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px; 
+            margin-left: 0.5rem;
+        }
+        
+        /* Ajuste para el Subtotal en Carrito (en la vista de MENÚ) */
+        .cart-summary {
+            background-color: #f3f4f6; /* bg-gray-100 */
+            padding: 1.5rem 1rem;
+            border-radius: 0.75rem;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+
+        /* Botón principal de Carrito */
+        .btn-main-cart {
+            background-color: var(--color-secondary);
+            color: var(--color-text-dark);
+            font-weight: 600;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem; 
+            width: 100%;
+            margin-top: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Estilo para la barra de progreso */
+        .progress-bar-container {
+            height: 8px;
+            background-color: #e5e7eb; /* gray-200 */
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 25%; /* 1250 / 5000 * 100% */
+            background-color: var(--color-secondary);
+            border-radius: 9999px;
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* Estilo para tarjetas de Puntos (Como ganar puntos) */
+        .points-card {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--color-primary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        /* Tarjeta de Categoría para la vista de Soporte */
+        .category-card {
+            background-color: white;
+            border: 1px solid #e5e7eb; /* gray-200 */
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100px; /* Altura fija para consistencia en la cuadrícula */
+            transition: all 0.2s;
+            text-align: center;
+            cursor: pointer;
+        }
+        .category-card:hover {
+            border-color: var(--color-primary); /* Borde verde al pasar el ratón */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .category-icon {
+            color: var(--color-primary);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* ESTILOS PARA EL FORMULARIO DE SOPORTE */
+        .support-form-container {
+            background-color: var(--color-support-bg); /* green-50 */
+            padding: 24px;
+            border-radius: 1rem;
+            margin-top: 16px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db; /* gray-300 */
+            border-radius: 0.5rem;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+            transition: border-color 0.2s;
+        }
+        .input-field:focus {
+            border-color: var(--color-primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3); /* green-300 ring */
+        }
+        .textarea-field {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .label-text {
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 600;
+            color: var(--color-text-dark);
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+        
+        /* ------------------------------------------- */
+        /* ESTILOS DE PERSONALIZACIÓN DE PLATO */
+        /* ------------------------------------------- */
+
+        /* Encabezado del plato a personalizar (Fondo verde oscuro) */
+        .personalize-header {
+            background-color: var(--color-dark-green);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Estilos de las tarjetas de opción (con acento en borde) */
+        .option-card {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+        .option-card.dietetic {
+            border-left: 4px solid var(--color-primary); /* Borde verde */
+        }
+        .option-card.substitution {
+            border-left: 4px solid var(--color-secondary); /* Borde amarillo */
+        }
+        .option-card.portion {
+            border-left: 4px solid #3b82f6; /* Borde azul (simulación) */
+        }
+        .option-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+        .option-subtitle {
+            font-size: 0.75rem; /* text-xs */
+            color: #6b7280; /* gray-500 */
+            margin-bottom: 1rem;
+        }
+        .custom-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db; /* gray-300 */
+            border-radius: 0.5rem;
+            appearance: none; /* Ocultar flecha nativa */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236b7280'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1.5em 1.5em;
+        }
+        
+        /* ------------------------------------------- */
+        /* ESTILOS DEL CARRITO (NUEVOS) */
+        /* ------------------------------------------- */
+        .cart-item-card {
+             /* Estilo base ya definido, pero se añade un poco de padding inferior para el scroll */
+             padding-bottom: 1rem;
+        }
+
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <div class="mobile-frame">
+        <!-- 1. BARRA SUPERIOR (Notificaciones) - Replica la imagen -->
+        <header class="bg-black p-2 flex justify-between items-center text-xs border-b border-gray-100">
+            <!-- Texto 'FreshBites' a la izquierda, color verde -->
+            <span class="font-bold text-sm text-white">12:03</span>
+            <!-- Batería a la derecha, color verde (RESTAURADO a 92%) -->
+            <div class="flex items-center space-x-1">
+                <span class="text-sm text-white font-semibold">92%</span>
+                <!-- Icono de batería (92% cargada) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600">
+                    <!-- Casing (Stroke) -->
+                    <rect x="3" y="5" width="18" height="14" rx="2" fill="none"/>
+                    <!-- Terminal -->
+                    <path d="M22 9h-2v6h2" stroke="currentColor" fill="none"/>
+                    <!-- Fill (92% - fill color will be the current stroke color, green) -->
+                    <!-- Aproximación al 92% (17/18 = ~94%) -->
+                    <rect x="4" y="6" width="16" height="12" rx="1" fill="currentColor" stroke="none"/> 
+                </svg>
+            </div>
+        </header>
+
+        <!-- 2. CONTENEDOR PRINCIPAL SCROLLABLE (Contiene todas las VISTAS) -->
+        <main class="flex-grow overflow-y-auto bg-white">
+            
+            <!-- VISTA 1: MENÚ -->
+            <div id="view-menu" class="view active">
+                <!-- TÍTULO PRINCIPAL DE LA APP - Sticky para la vista de Menú -->
+                <div class="sticky top-0 bg-white z-10 pt-4 pb-3">
+                    <h1 class="main-menu-bar">FreshBites MiDieta</h1>
+                    <p class="text-sm text-gray-600 mt-4 px-1 text-justify">
+                        Selecciona tus platos para la próxima semana. Puedes personalizar cada plato según tus preferencias.
+                    </p>
+                </div>
+
+                <!-- LISTA DE PLATOS -->
+                <div id="meal-list" class="space-y-4 mt-6">
+                    <!-- Tarjeta de Plato 1 -->
+                    <div class="meal-card">
+                        <div class="flex-grow">
+                            <h2 class="text-base font-bold text-gray-800 leading-tight">Menú Nutri-Esencial</h2>
+                            <p class="text-xs text-gray-500 mt-1 mb-0 leading-tight">
+                                Balance perfecto de proteínas y carbohidratos.
+                            </p>
+                            <!-- RESTAURADO a $ -->
+                            <span class="price">12.99€</span>
+                        </div>
+                        <div class="button-group">
+                            <!-- MODIFICACIÓN: Llama a la nueva función -->
+                            <button class="btn-modify py-1 px-3 rounded-full" onclick="showPersonalizeMenu('Menú Nutri-Esencial', 15.50)">
+                                Modificar Menú
+                            </button>
+                            <!-- MODIFICACIÓN: Llama con el nombre exacto y el precio unitario -->
+                            <button class="btn-add" onclick="handleMenuAction('Menú Nutri-Esencial', 12.99)">
+                                Añadir
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta de Plato 2 -->
+                    <div class="meal-card">
+                        <div class="flex-grow">
+                            <h2 class="text-base font-bold text-gray-800 leading-tight">Menú Sabor-Fit</h2>
+                            <p class="text-xs text-gray-500 mt-1 mb-0 leading-tight">
+                                Productos frescos y vegetales de temporada.
+                            </p>
+                            <!-- RESTAURADO a $ -->
+                            <span class="price">15.50€</span>
+                        </div>
+                        <div class="button-group">
+                            <!-- MODIFICACIÓN: Llama a la nueva función -->
+                            <button class="btn-modify py-1 px-3 rounded-full" onclick="showPersonalizeMenu('Menú Sabor-Fit', 15.50)">
+                                Modificar Menú
+                            </button>
+                            <!-- MODIFICACIÓN: Llama con el nombre exacto y el precio unitario -->
+                            <button class="btn-add" onclick="handleMenuAction('Menú Sabor-Fit', 15.50)">
+                                Añadir
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta de Plato 3 -->
+                    <div class="meal-card">
+                        <div class="flex-grow">
+                            <h2 class="text-base font-bold text-gray-800 leading-tight">Menú Balance</h2>
+                            <p class="text-xs text-gray-500 mt-1 mb-0 leading-tight">
+                                Fuente de fibra y hierro, ideal para una comida ligera.
+                            </p>
+                            <!-- RESTAURADO a $ -->
+                            <span class="price">11.25€</span>
+                        </div>
+                        <div class="button-group">
+                            <!-- MODIFICACIÓN: Llama a la nueva función -->
+                            <button class="btn-modify" onclick="showPersonalizeMenu('Menú Balance', 11.25)">
+                                Modificar Menú
+                            </button>
+                            <!-- MODIFICACIÓN: Llama con el nombre exacto y el precio unitario -->
+                            <button class="btn-add" onclick="handleMenuAction('Menú Balance', 11.25)">
+                                Añadir
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ESPACIADOR -->
+                    <div class="h-4"></div> 
+                </div>
+                
+                <!-- SUBTÓTAL Y BOTÓN FIJO -->
+                <section class="mt-8 mb-4">
+                    <div class="cart-summary">
+                        <h3 class="text-base font-bold text-gray-700">Subtotal en Carrito</h3>
+                        <!-- RESTAURADO a $ (el símbolo del dólar) -->
+                        <p class="text-4xl font-extrabold my-2" style="color: var(--color-primary);" id="subtotal-amount">0.00€</p>
+                        <!-- Botón de carrito, usa estilo secondary para el amarillo -->
+                        <button class="btn-main-cart" onclick="navigateTo('view-cart', this)">
+                            Ver MI Carrito (<span id="cart-item-count">0</span> platos)
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Pequeño espaciador final -->
+                <div class="h-16"></div> 
+            </div>
+
+            <!-- VISTA 1.5: PERSONALIZAR PLATO -->
+            <div id="view-personalize-meal" class="view hidden">
+                 <!-- TÍTULO PRINCIPAL DE LA APP -->
+                <h1 class="main-menu-bar sticky top-0 z-10 p-4">Personalizar menú</h1>
+
+                <div class="p-4">
+                    <!-- HEADER DEL PLATO A PERSONALIZAR (VERDE OSCURO - Simula la imagen) -->
+                    <div class="personalize-header">
+                        <p class="text-sm font-semibold text-gray-200">Personalizando:</p>
+                        <h2 class="text-2xl font-extrabold text-black-300 mt-1 mb-2" id="personalize-meal-name">
+                            Menú Nutri-Esencial
+                        </h2>
+                        <p class="text-sm font-semibold text-gray-200">
+                            Precio base: <span id="personalize-base-price">12.99€</span>
+                        </p>
+                    </div>
+
+                    <!-- FORMULARIO DE OPCIONES DE PERSONALIZACIÓN -->
+                    <form id="personalization-form" onchange="updatePersonalizationPrice()">
+                        <!-- OPCIÓN 1: DIETÉTICAS ESPECÍFICAS (Borde Verde) -->
+                        <div class="option-card dietetic">
+                            <h3 class="option-title" style="color: var(--color-primary);">Opciones Dietéticas</h3>
+                            <p class="option-subtitle">Modifica los ingredientes.</p>
+                            
+                            <select id="option-diet" class="custom-select" name="dietOption">
+                                <option value="none">Sin Cambios</option>
+                                <option value="lactosa-free">Opción Sin Lactosa</option>
+                                <option value="gluten-free">Opción Sin Gluten</option>
+                                <option value="vegano">Vegano(coste: +1.75€)</option>
+                                <option value="vegetariano">Vegetariano (coste: +1.75€)</option>
+                                <option value="carbohidratos">Bajo en Carbohidratos (coste: +1.50€)</option>                                
+                                <option value="proteinas">Alto en proteínas (coste: +1.50€)</option>
+                                <option value="paleo">Bajo en azúcares (coste: +1.00€)</option>
+                                <option value="otro">Otro (especificar)</option>
+                            </select>
+                        </div>
+
+                        <!-- OPCIÓN 2: SUSTITUCIÓN DE INGREDIENTES (Borde Amarillo) -->
+                        <div class="option-card substitution">
+                            <h3 class="option-title" style="color: var(--color-secondary);">Sustituye cualquier ingrediente por otro</h3>
+                            <p class="option-subtitle">Cambia el componente principal por una alternativa.</p>
+                            
+                            <select id="option-substitute" class="custom-select" name="substitutionOption">
+                                <option value="none">Sin Cambios</option>
+                                <option value="arroz">Cambiar el arroz integral por quinoa (coste: +0.50€)</option>
+                                <option value="pollo">Cambiar el pollo por tofu (coste: +1.50€)</option>
+                                <option value="lentejas">Cambiar pavo por lentejas (coste: +1.00€)</option>
+                                <option value="otro">Otro (especificar)</option>
+                            </select>
+                        </div>
+
+                        <!-- OPCIÓN 3: AJUSTE DE PORCIONES (Borde Azul) -->
+                        <div class="option-card portion">
+                            <h3 class="option-title" style="color: #3b82f6;">Ajuste de Porciones</h3>
+                            <p class="option-subtitle">Ajusta la cantidad de las porciones.</p>
+                            
+                            <select id="option-portion" class="custom-select" name="portionOption">
+                                <option value="base">Porción Base</option>
+                                <option value="extra-prot">Añade X gramos extra al plato base (coste: +3.00€)</option>
+                                <option value="extra-carb">Reduce la porción de carbohidratos y aumenta ligeramente la porción de
+grasas saludables (coste: +3.75€)</option>
+                                <option value="mini">Elimina X gramos del plato base (coste: +3.00€)</option>
+                                <option value="otro">Otro (especificar)</option>
+                            </select>
+                        </div>
+                    </form>
+                    
+                    <!-- CANCELAR PERSONALIZACIÓN (NO ESTÁ EN LA IMAGEN PERO ES REQUERIDO) -->
+                    <button onclick="cancelPersonalization()" 
+                            class="w-full py-3 mt-4 text-center font-bold rounded-lg text-gray-600 bg-gray-200 hover:bg-gray-300 transition duration-150">
+                        Cancelar Personalización
+                    </button>
+                </div>
+
+                <!-- BOTÓN FIJO INFERIOR (Añadir al Carrito) -->
+                <div class="sticky bottom-0 z-10 p-4 border-t border-gray-200 bg-white shadow-lg">
+                    <button class="w-full py-3 rounded-lg text-white font-extrabold transition duration-200 flex justify-between items-center px-6"
+                            style="background-color: var(--color-dark-green);"
+                            onclick="addPersonalizedMealToCart()">
+                        <span>Añadir Plato Personalizado al Carrito</span>
+                        <span id="final-price">(12.99€)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- VISTA 2: CARRITO (SECCIÓN MODIFICADA) -->
+            <div id="view-cart" class="view hidden">
+                <h1 class="main-menu-bar sticky top-0 z-10">Mi Carrito</h1>
+                
+                <p class="text-sm text-gray-600 mt-4 px-1 mb-4">
+                    Revisa y ajusta la cantidad de tus platos antes de proceder al pago.
+                </p>
+
+                <!-- Contenedor de la lista de elementos del carrito (Cuerpo del carrito) -->
+                <div id="cart-list-container" class="space-y-3 pb-24">
+                    <!-- Este contenido se genera dinámicamente por la función renderCart() -->
+                </div>
+                
+                <!-- Resumen Fijo Inferior (Checkout) - Simula el diseño de la imagen -->
+                <div id="cart-checkout-summary" class="fixed bottom-[68px] left-0 right-0 max-w-[360px] mx-auto z-20 p-4 bg-white border-t border-gray-200 shadow-xl hidden">
+                    <div class="flex justify-between font-bold text-lg mb-3 text-gray-800">
+                        <span>Subtotal Total:</span>
+                        <!-- Usamos el estilo del precio principal (verde) -->
+                        <span id="cart-total-amount" class="text-xl font-extrabold" style="color: var(--color-primary);">0.00€</span>
+                    </div>
+                    <!-- Botón de Pagar (usando el verde oscuro del header de personalización) -->
+                    <button class="w-full py-3 rounded-lg text-white font-extrabold transition duration-200 hover:bg-green-700"
+                            style="background-color: var(--color-dark-green);"
+                            onclick="simulateCheckout()">
+                        Proceder al Pago
+                    </button>
+                </div>
+                
+            </div>
+            <!-- FIN DE VISTA 2: CARRITO -->
+
+            <!-- VISTA 3: SOPORTE (Contenido del Immersive anterior - SIN CAMBIOS AQUÍ) -->
+            <div id="view-support" class="view hidden">
+                <!-- BARRA SUPERIOR ESPECÍFICA DE SOPORTE (Verde) -->
+                <div class="bg-green-500 text-white flex items-center p-3 sticky top-0 z-10" style="background-color: var(--color-primary);">
+                    <!-- Botón de Retroceso (Flecha) - Cambia de función según la sub-vista -->
+                    <button id="support-back-button" onclick="goBackInSupport()" class="mr-4 p-1 rounded-full hover:bg-green-400 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+                    </button>
+                    <!-- Título Centrado -->
+                    <h1 class="text-xl font-bold flex-grow text-center pr-8" id="support-title">Soporte al Cliente</h1>
+                </div>
+
+                <div class="p-4">
+                    
+                    <!-- SUB-VISTA 3.1: CUADRÍCULA DE CATEGORÍAS (Inicialmente visible) -->
+                    <div id="support-categories">
+                        <h2 class="text-xl font-extrabold text-gray-800 mt-6 mb-2">Centro de Ayuda y Soporte</h2>
+                        <p class="text-sm text-gray-600 mb-8">
+                            ¿En qué podemos ayudarte hoy?
+                        </p>
+
+                        <!-- GRID DE CATEGORÍAS (2 columnas x 3 filas) -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <!-- Los botones ahora llaman a showSupportForm(categoría) -->
+                            <button class="category-card" onclick="showSupportForm('Suscripciones')">
+                                <!-- Icono de Burocracia/Documento/Repetir -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="category-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H7M14 19H10"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M21 9V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v4"/></svg>
+                                <span class="text-xs font-semibold text-gray-700">Facturas</span>
+                            </button>
+                            
+                            <button class="category-card" onclick="showSupportForm('Pedido/Facturación')">
+                                <!-- Icono de Documento/Factura -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="category-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+                                <span class="text-xs font-semibold text-gray-700">Pedido</span>
+                            </button>
+                            
+                            <button class="category-card" onclick="showSupportForm('Entrega')">
+                                <!-- Icono de Ubicación/Mapa -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="category-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="12" r="4"/></svg>
+                                <span class="text-xs font-semibold text-gray-700">Medio de pago</span>
+                            </button>
+                            
+                            <button class="category-card" onclick="showSupportForm('Productos/Calidad')">
+                                <!-- Icono de Comida/Hoja (Hoja de planta) -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="category-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.5C15.2 7 18 10 18 10a7 7 0 1 1-9.4-7.5c.2 1 .4 2.1.6 3.1z"/></svg>
+                                <span class="text-xs font-semibold text-gray-700">Producto</span>
+                            </button>
+                            
+                            <button class="category-card" onclick="showSupportForm('Cuenta/Club')">
+                                <!-- Icono de Usuario -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="category-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                <span class="text-xs font-semibold text-gray-700">Mi área</span>
+                            </button>
+                            
+                            <button class="category-card" onclick="showSupportForm('Otro Tema')">
+                                <!-- Icono de Puntos Suspensivos -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="category-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                                <span class="text-xs font-semibold text-gray-700">Opiniones</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- SUB-VISTA 3.2: FORMULARIO DE CONTACTO (Inicialmente oculto) -->
+                    <div id="support-form" class="hidden">
+                        
+                        <div class="support-form-container">
+                            <h2 class="text-lg font-extrabold text-gray-800 mb-6">
+                                Rellena el formulario
+                            </h2>
+                            <form onsubmit="submitForm(event)" id="contact-form">
+                                <!-- Fila 1: Nombre y Apellidos -->
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <label for="nombre" class="label-text">Nombre</label>
+                                        <input type="text" id="nombre" name="nombre" class="input-field" placeholder="Maria" required>
+                                    </div>
+                                    <div>
+                                        <label for="apellidos" class="label-text">Apellidos</label>
+                                        <input type="text" id="apellidos" name="apellidos" class="input-field" placeholder="Garcia Hernández" required>
+                                    </div>
+                                </div>
+                                
+                                <!-- Fila 2: E-mail y N° de teléfono -->
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <label for="email" class="label-text">E-mail</label>
+                                        <input type="email" id="email" name="email" class="input-field" placeholder="ejemplo@gmail.com" required>
+                                    </div>
+                                    <div>
+                                        <!-- Opcional: El único campo opcional -->
+                                        <label for="telefono" class="label-text">Nº de teléfono (Opcional)</label>
+                                        <input type="tel" id="telefono" name="telefono" class="input-field" placeholder="673...">
+                                    </div>
+                                </div>
+                                
+                                <!-- Fila 3: Tu mensaje -->
+                                <div class="mb-6">
+                                    <label for="mensaje" class="label-text">Tu mensaje</label>
+                                    <textarea id="mensaje" name="mensaje" class="input-field textarea-field" placeholder="Tu texto aquí..." required></textarea>
+                                </div>
+                                
+                                <!-- Fila 4: Botones de Acción -->
+                                <div class="flex space-x-2">
+                                    
+                                    <!-- Botón de Adjuntar Archivos (Simulado) -->
+                                    <button type="button" onclick="simulateFileUpload()" 
+                                            class="flex items-center justify-center flex-grow py-3 px-4 rounded-lg text-white font-bold transition duration-200"
+                                            style="background-color: var(--color-primary);">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                        Pulsa aquí para adjuntar archivos
+                                    </button>
+                                    
+                                    <!-- Botón de Enviar (Amarillo) -->
+                                    <button type="submit" 
+                                            class="py-3 px-6 rounded-lg font-bold transition duration-200"
+                                            style="background-color: var(--color-secondary); color: var(--color-text-dark);">
+                                        ENVIAR
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- Espaciador -->
+                    <div class="h-24"></div>
+                </div>
+            </div>
+
+            <!-- VISTA 4: CLUB -->
+            <div id="view-club" class="view hidden px-4 py-4">
+                
+                <!-- 1. TARJETA DE PERFIL Y PUNTOS (HEADER) -->
+                <div class="bg-gray-800 p-6 rounded-xl shadow-lg text-white mb-6">
+                    <div class="flex items-center space-x-4">
+                        <!-- Foto de perfil simulada -->
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center font-bold text-lg border-2 border-white">
+                            AG
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-300">Bienvenido/a de vuelta,</p>
+                            <h2 class="text-xl font-bold">Ana García</h2>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 text-center bg-gray-700 p-3 rounded-lg">
+                        <p class="text-sm text-white-300">Tu nivel actual es:</p>
+                        <span class="text-3xl font-extrabold" style="color: var(--color-primary);">FreshBites Miembro</span>
+                    </div>
+
+                    <!-- PUNTOS Y BARRA DE PROGRESO -->
+                    <div class="mt-6">
+                        <h3 class="text-4xl font-extrabold text-yellow-400">1.250 pts</h3>
+                        <p class="text-sm text-gray-400 mt-1">Acumulados hasta la fecha</p>
+                        
+                        <div class="progress-bar-container mt-4">
+                            <!-- Progreso: 1250 / 5000 = 25% -->
+                            <div class="progress-bar-fill" style="width: 25%;"></div>
+                        </div>
+                        
+                        <div class="flex justify-between text-xs mt-2 text-gray-400 font-semibold">
+                            <span>¡A solo <span class="text-yellow-400">3.750 pts</span> de ser GOLD!</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 2. INTRODUCCIÓN Y REGLAS BÁSICAS -->
+                <p class="text-sm text-gray-600 mb-6 text-justify">
+                    FreshBites Plus está diseñado para recompensar tu confianza y participación activa. Acumula puntos y canjéalos por descuentos, regalos y mejoras en tu servicio.
+                </p>
+
+                <!-- 3. CÓMO GANAR PUNTOS (Tarjetas) -->
+                <h2 class="text-lg font-bold text-gray-800 mb-6 mt-8">¡Multiplica tus Puntos!</h2>
+                
+                <div class="space-y-3">
+                    <!-- Compras -->
+                    <div class="points-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green-600 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Comprar Menú</h3>
+                            <p class="text-xs text-gray-500">Gana <span class="font-bold text-green-700">5 puntos</span> por cada 10€ de compra. ¡GOLD gana 6,25 puntos!</p>
+                        </div>
+                    </div>
+                    
+                    <!-- MiDieta / Personalización -->
+                    <div class="points-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-yellow-600 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"/><path d="M12 6v6l4 2"/></svg>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Personalizar con MiDieta</h3>
+                            <p class="text-xs text-gray-500">Recibe <span class="font-bold text-green-700">10puntos</span> por usar el sistema de personalización de menú. ¡GOLD gana 20 puntos!</p>
+                        </div>
+                    </div>
+
+                    <!-- Feedback / Fiabilidad -->
+                    <div class="points-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-blue-600 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Completar Formulario Post-Entrega</h3>
+                            <p class="text-xs text-gray-500">Gana <span class="font-bold text-green-700">30 puntos</span> por darnos tu valiosa opinión sobre el servicio. ¡GOLD gana 45 puntos!</p>
+                        </div>
+                    </div>
+
+                    <!-- Referidos / Adquisición -->
+                    <div class="points-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-indigo-600 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 17H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2z"/><path d="M17 17l4 4"/></svg>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Referir un Amigo</h3>
+                            <p class="text-xs text-gray-500">Obtén <span class="font-bold text-green-700">200 puntos</span> si traes un nuevo cliente. ¡GOLD obtiene 400 puntos!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. RECOMPENSAS POR CANJEAR PUNTOS -->
+                <h2 class="text-lg font-bold text-gray-800 mb-4 mt-8">Canjea tus puntos y disfruta</h2>
+                
+                <div class="space-y-3 mb-8">
+                    <!-- 500 Puntos -->
+                    <div class="p-3 bg-green-50 rounded-lg border-2 border-green-200 flex justify-between items-center">
+                        <p class="font-medium text-gray-700">5€ de descuento en el próximo pedido</p>
+                        <span class="font-extrabold text-yellow-700 bg-yellow-200 px-3 py-1 rounded-full text-xs">500 pts</span>
+                    </div>
+
+                    <!-- 1000 Puntos -->
+                    <div class="p-3 bg-green-50 rounded-lg border-2 border-green-200 flex justify-between items-center">
+                        <p class="font-medium text-gray-700">Producto de regalo (snack o postre especial)</p>
+                        <span class="font-extrabold text-yellow-700 bg-yellow-200 px-3 py-1 rounded-full text-xs">1.000 pts</span>
+                    </div>
+
+                    <!-- 2500 Puntos -->
+                    <div class="p-3 bg-green-50 rounded-lg border-2 border-green-200 flex justify-between items-center">
+                        <p class="font-medium text-gray-700">Entrega prioritaria</p>
+                        <span class="font-extrabold text-yellow-700 bg-yellow-200 px-3 py-1 rounded-full text-xs">2.500 pts</span>
+                    </div>
+
+                    <!-- 5000 Puntos -->
+                    <div class="p-3 bg-green-50 rounded-lg border-2 border-green-200 flex justify-between items-center">
+                        <p class="font-medium text-gray-700">Acceso a Menú Premium de Edición Limitada</p>
+                        <span class="font-extrabold text-yellow-700 bg-yellow-200 px-3 py-1 rounded-full text-xs">5.000 pts</span>
+                    </div>
+                </div>
+
+                <!-- 5. BENEFICIOS GOLD -->
+                <h2 class="text-lg font-bold text-yellow-700 mb-3 mt-8">Beneficios Exclusivos Nivel GOLD</h2>
+                <div class="bg-yellow-50 p-4 rounded-xl shadow-inner mb-10">
+                    <p class="text-sm text-gray-700 mb-4 font-semibold">
+                        El nivel GOLD está diseñado para nuestros clientes más valiosos, ofreciendo exclusividad y la mejor experiencia de servicio.
+                    </p>
+                    <ul class="space-y-3 text-sm text-gray-800">
+                        <li class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-1 mr-2 text-yellow-600 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H7M14 19H10"/></svg>
+                            <span class="leading-snug">Gana puntos mucho más rápido que el nivel Miembro.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-1 mr-2 text-yellow-600 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"/><path d="M12 6v6l4 2"/></svg>
+                            <span class="leading-snug">Atención al cliente prioritaria: Tiempo de respuesta inferior a 5 horas.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-1 mr-2 text-yellow-600 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>
+                            <span class="leading-snug">Regalo de cumpleaños: Código de <span class="font-bold">15€ de descuento</span> canjeable durante tu mes de cumpleaños.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-1 mr-2 text-yellow-600 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                            <span class="leading-snug">Acceso anticipado a nuevos menús e ingredientes premium.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Pequeño espaciador final -->
+                <div class="h-8"></div> 
+            </div>
+
+        </main>
+
+        <!-- 4. BARRA DE NAVEGACIÓN INFERIOR FIJA -->
+        <footer class="bg-white border-t border-gray-200 p-2 flex justify-around items-center text-xs text-gray-500">
+            <!-- Menú (Activo por defecto) -->
+            <button data-view="view-menu" class="flex flex-col items-center text-center text-green-600 font-semibold" onclick="navigateTo('view-menu', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+                <span>Menú</span>
+            </button>
+            
+            <!-- Carrito -->
+            <button data-view="view-cart" class="flex flex-col items-center text-center text-gray-500 hover:text-green-600" onclick="navigateTo('view-cart', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <span>Carrito</span>
+            </button>
+            
+            <!-- Soporte -->
+            <button data-view="view-support" class="flex flex-col items-center text-center text-gray-500 hover:text-green-600" onclick="navigateTo('view-support', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 0 10 10c0 4.418-2.686 8.441-6.703 9.771l-1.666-.833a10 10 0 0 0-1.631-.479c-4.418 0-8-3.582-8-8s3.582-8 8-8z"/><path d="M12 16.5V12"/><path d="M12 8h.01"/></svg>
+                <span>Soporte</span>
+            </button>
+            
+            <!-- Club -->
+            <button data-view="view-club" class="flex flex-col items-center text-center text-gray-500 hover:text-green-600" onclick="navigateTo('view-club', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Club</span>
+            </button>
+        </footer>
+
+    </div>
+
+    <!-- Caja de mensajes temporales (simulación de alert) -->
+    <div id="message-box" class="fixed bottom-24 right-4 bg-gray-800 text-white p-3 rounded-lg shadow-xl hidden transition duration-300 z-50 text-sm"></div>
+
+    <script>
+        // NUEVA ESTRUCTURA DE DATOS PARA EL CARRITO
+        let cartItems = [];
+        
+        let currentSupportCategory = ''; // Para estado de Soporte
+        let isFormView = false; // Indica si estamos en la vista del formulario de soporte
+        
+        // Variables para el estado de Personalización del Plato
+        let currentMealName = '';
+        let currentBasePrice = 0.00;
+        let currentFinalPrice = 0.00;
+
+        /**
+         * Función para manejar los clics de los botones de acción del menú.
+         * MODIFICADO: Ahora añade un objeto al array cartItems.
+         * @param {string} mealName - El nombre del plato.
+         * @param {number} [price=0] - El precio unitario del plato.
+         */
+        function handleMenuAction(mealName, price) {
+            
+            // Buscar si el plato ya existe en el carrito
+            const existingItem = cartItems.find(item => item.name === mealName && !item.isPersonalized);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cartItems.push({
+                    id: crypto.randomUUID(), // Generar un ID único para el elemento
+                    name: mealName,
+                    price: price,
+                    quantity: 1,
+                    isPersonalized: false, 
+                    personalizationDetails: {}
+                });
+            }
+            
+            updateCartSummary();
+            showTemporaryMessage(`¡Plato añadido: ${mealName}!`);
+        }
+        
+        /**
+         * NUEVA FUNCIÓN: Actualiza el subtotal en la vista del Menú y el conteo de ítems
+         */
+        function updateCartSummary() {
+            let totalCount = 0;
+            let totalSubtotal = 0.00;
+            
+            cartItems.forEach(item => {
+                totalCount += item.quantity;
+                totalSubtotal += item.price * item.quantity;
+            });
+            
+            // Actualizar la interfaz del menú principal
+            document.getElementById('cart-item-count').textContent = totalCount;
+            // Usando el símbolo $
+            document.getElementById('subtotal-amount').textContent = '€' + totalSubtotal.toFixed(2);
+            
+            // Renderizar la vista de Carrito si estamos en ella (para mantener la consistencia)
+            if (!document.getElementById('view-cart').classList.contains('hidden')) {
+                renderCart();
+            }
+        }
+        
+        /**
+         * Función principal de navegación. Cambia entre las vistas de la aplicación.
+         * @param {string} viewId - El ID de la vista a mostrar (e.g., 'view-menu').
+         * @param {HTMLElement} clickedButton - El elemento de botón que fue clickeado para actualizar su estilo.
+         */
+        function navigateTo(viewId, clickedButton) {
+            // 1. Ocultar todas las vistas
+            document.querySelectorAll('.view').forEach(view => {
+                view.classList.add('hidden');
+                view.classList.remove('active');
+            });
+
+            // 2. Mostrar la vista seleccionada
+            const targetView = document.getElementById(viewId);
+            if (targetView) {
+                targetView.classList.remove('hidden');
+                targetView.classList.add('active'); // Marcar la vista activa
+                // Al cambiar de vista, forzar el scroll al inicio de la página.
+                targetView.parentElement.scrollTop = 0; 
+            }
+            
+            // 3. Actualizar el estado activo de la barra de navegación (footer)
+            document.querySelectorAll('footer button').forEach(button => {
+                // Remover clase activa y establecer clase inactiva (gris)
+                button.classList.remove('text-green-600', 'font-semibold');
+                button.classList.add('text-gray-500');
+            });
+            
+            // 4. Aplicar la clase activa (verde) al botón clicado (solo si existe data-view)
+            const footerButton = document.querySelector(`footer button[data-view="${viewId}"]`);
+
+            if (footerButton) {
+                footerButton.classList.add('text-green-600', 'font-semibold');
+                footerButton.classList.remove('text-gray-500');
+            }
+
+            // 5. Lógica de renderizado específica
+            if (viewId === 'view-cart') {
+                renderCart(); // *** IMPORTANTE: Renderiza el carrito cuando se navega a esta vista ***
+            } else if (viewId === 'view-menu') {
+                updateCartSummary(); // Asegurar que el resumen del menú esté correcto
+            }
+
+            // 6. Resetear el estado del Soporte si no estamos navegando a 'view-support'
+            if (viewId !== 'view-support') {
+                 isFormView = false;
+                 // Asegurar que la vista de categorías se muestre por defecto al volver
+                 document.getElementById('support-categories').classList.remove('hidden');
+                 document.getElementById('support-form').classList.add('hidden');
+                 document.getElementById('support-title').textContent = 'Soporte al Cliente';
+                 // Cambiar el botón de vuelta al Menú
+                 document.getElementById('support-back-button').onclick = () => navigateTo('view-menu', document.querySelector('[data-view="view-menu"]'));
+            }
+        }
+
+
+        // Función para mostrar mensajes temporales (reemplazando alert())
+        function showTemporaryMessage(message, duration = 1500) {
+            const messageBox = document.getElementById('message-box');
+            messageBox.textContent = message;
+            messageBox.classList.remove('hidden', 'opacity-0');
+            messageBox.classList.add('opacity-100');
+
+            setTimeout(() => {
+                messageBox.classList.remove('opacity-100');
+                messageBox.classList.add('opacity-0');
+                setTimeout(() => {
+                    messageBox.classList.add('hidden');
+                }, 300); // Coincide con la duración de la transición
+            }, duration);
+        }
+
+        /* ------------------------------------------- */
+        /* FUNCIONES DE PERSONALIZACIÓN DEL PLATO (EXISTENTES) */
+        /* ------------------------------------------- */
+
+        /**
+         * Muestra la vista de personalización de un plato específico.
+         * @param {string} mealName - Nombre del plato.
+         * @param {number} basePrice - Precio base del plato.
+         */
+        function showPersonalizeMenu(mealName, basePrice) {
+            // 1. Actualizar el estado global
+            currentMealName = mealName;
+            currentBasePrice = basePrice;
+            currentFinalPrice = basePrice; // Precio inicial es el base
+
+            // 2. Actualizar la interfaz
+            document.getElementById('personalize-meal-name').textContent = mealName;
+            document.getElementById('personalize-base-price').textContent = `$${basePrice.toFixed(2)}`;
+            
+            // 3. Resetear el formulario y actualizar el precio final
+            document.getElementById('personalization-form').reset();
+            document.getElementById('final-price').textContent = `($${currentFinalPrice.toFixed(2)})`;
+
+            // 4. Navegar a la vista de personalización (sin cambiar el botón activo del footer)
+            navigateTo('view-personalize-meal');
+        }
+
+        /**
+         * Calcula y actualiza el precio total al cambiar las opciones de personalización.
+         */
+        function updatePersonalizationPrice() {
+            let priceAdjustment = 0;
+            
+            // Simulación de los costes de las opciones (basado en el texto de los options)
+            const dietOption = document.getElementById('option-diet').value;
+            const substitutionOption = document.getElementById('option-substitute').value;
+            const portionOption = document.getElementById('option-portion').value;
+
+            // Opción 1: Dietética
+            if (dietOption === 'keto' || dietOption === 'paleo') {
+                priceAdjustment += 1.50;
+            }
+
+            // Opción 2: Sustitución
+            if (substitutionOption === 'tofu') {
+                priceAdjustment += 0.50;
+            } else if (substitutionOption === 'garbanzos') {
+                priceAdjustment -= 1.00;
+            }
+
+            // Opción 3: Porciones
+            if (portionOption === 'extra-prot') {
+                priceAdjustment += 3.00;
+            } else if (portionOption === 'extra-carb') {
+                priceAdjustment += 2.00;
+            } else if (portionOption === 'mini') {
+                priceAdjustment -= 2.50;
+            }
+
+            // Calcular el precio final
+            currentFinalPrice = currentBasePrice + priceAdjustment;
+            if (currentFinalPrice < 0) currentFinalPrice = 0; // Prevenir precios negativos
+
+            // Actualizar la etiqueta del botón
+            document.getElementById('final-price').textContent = `($${currentFinalPrice.toFixed(2)})`;
+        }
+
+        /**
+         * Simula añadir el plato personalizado al carrito y vuelve al menú principal.
+         * MODIFICADO: Usa la nueva estructura de carrito.
+         */
+        function addPersonalizedMealToCart() {
+            const personalizationData = {
+                diet: document.getElementById('option-diet').value,
+                substitute: document.getElementById('option-substitute').value,
+                portion: document.getElementById('option-portion').value,
+            };
+
+            cartItems.push({
+                id: crypto.randomUUID(), 
+                name: `${currentMealName} (Personalizado)`,
+                price: currentFinalPrice,
+                quantity: 1,
+                isPersonalized: true,
+                personalizationDetails: personalizationData
+            });
+
+            updateCartSummary();
+            showTemporaryMessage(`¡Plato '${currentMealName}' personalizado y añadido al carrito por $${currentFinalPrice.toFixed(2)}!`);
+            cancelPersonalization(); // Vuelve al menú principal
+        }
+        
+        /**
+         * Cancela la personalización y vuelve a la vista de menú.
+         */
+        function cancelPersonalization() {
+            showTemporaryMessage('Personalización cancelada. Volviendo al Menú.');
+            navigateTo('view-menu', document.querySelector('[data-view="view-menu"]'));
+        }
+
+        /* ------------------------------------------- */
+        /* FUNCIONES DEL CARRITO (NUEVAS/MODIFICADAS) */
+        /* ------------------------------------------- */
+
+        /**
+         * Renderiza el contenido dinámico del carrito, incluyendo la lista de items
+         * y el resumen de pago fijo.
+         */
+        function renderCart() {
+            const container = document.getElementById('cart-list-container');
+            const summaryBox = document.getElementById('cart-checkout-summary');
+            let totalSubtotal = 0.00;
+            let cartHTML = '';
+
+            if (cartItems.length === 0) {
+                // Si el carrito está vacío, muestra el mensaje placeholder y oculta el resumen de pago
+                cartHTML = `
+                    <div class="text-center p-6 bg-gray-50 rounded-lg shadow-inner mt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon w-10 h-10 mx-auto mb-4 text-gray-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                        <p class="text-lg font-bold text-gray-700">¡Tu carrito está vacío!</p>
+                        <p class="text-sm text-gray-500 mt-2">Añade platos desde el menú para comenzar tu pedido.</p>
+                    </div>
+                `;
+                summaryBox.classList.add('hidden');
+            } else {
+                // Si hay items, construir la lista de items (Simulando el diseño de la imagen)
+                cartItems.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    totalSubtotal += itemTotal;
+
+                    // Estructura de la tarjeta de artículo 
+                    cartHTML += `
+                        <div class="cart-item-card flex items-center p-3 bg-white rounded-xl shadow-md border border-gray-100">
+                            <!-- Nombre del Plato y Detalles -->
+                            <div class="flex-grow min-w-0 pr-2">
+                                <p class="font-bold text-sm text-gray-800 truncate">${item.name}</p>
+                                <p class="text-xs text-gray-500 mt-0">
+                                    Precio Unitario: <span class="text-green-600 font-semibold">$${item.price.toFixed(2)}</span>
+                                </p>
+                            </div>
+                            
+                            <!-- Control de Cantidad (Simula el diseño de la imagen) -->
+                            <div class="flex items-center space-x-1 border border-gray-300 rounded-full px-1 py-0.5 shadow-sm flex-shrink-0">
+                                <button onclick="updateQuantity('${item.id}', -1)" class="w-6 h-6 text-xl font-bold rounded-full text-red-500 leading-none pb-0.5 hover:bg-red-50 transition duration-150">
+                                    &minus;
+                                </button>
+                                <span class="w-5 text-center font-bold text-base text-gray-800">${item.quantity}</span>
+                                <button onclick="updateQuantity('${item.id}', 1)" class="w-6 h-6 text-xl font-bold rounded-full text-green-600 leading-none pb-0.5 hover:bg-green-50 transition duration-150">
+                                    +
+                                </button>
+                            </div>
+
+                            <!-- Precio Total del Item (A la derecha) -->
+                            <div class="ml-4 text-right flex-shrink-0">
+                                <p class="font-extrabold text-lg text-gray-800">$${itemTotal.toFixed(2)}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                // Actualizar el resumen fijo
+                document.getElementById('cart-total-amount').textContent = `$${totalSubtotal.toFixed(2)}`;
+                summaryBox.classList.remove('hidden');
+            }
+
+            container.innerHTML = cartHTML;
+            
+            // Asegurar que el subtotal en el menú también esté actualizado
+            updateCartSummary();
+        }
+
+        /**
+         * Ajusta la cantidad de un artículo en el carrito.
+         * @param {string} itemId - El ID del item a modificar.
+         * @param {number} delta - +1 para aumentar, -1 para disminuir.
+         */
+        function updateQuantity(itemId, delta) {
+            const itemIndex = cartItems.findIndex(item => item.id === itemId);
+
+            if (itemIndex > -1) {
+                cartItems[itemIndex].quantity += delta;
+                
+                if (cartItems[itemIndex].quantity <= 0) {
+                    // Eliminar el item si la cantidad llega a 0
+                    cartItems.splice(itemIndex, 1);
+                    showTemporaryMessage('Plato eliminado del carrito.');
+                } else {
+                    showTemporaryMessage(`Cantidad actualizada para ${cartItems[itemIndex].name}.`);
+                }
+                
+                // Forzar el re-renderizado y la actualización del resumen
+                renderCart(); 
+                updateCartSummary();
+            }
+        }
+        
+        /**
+         * Simula la acción de pagar (checkout).
+         */
+        function simulateCheckout() {
+            showTemporaryMessage('¡Simulación de Pago Exitosa! Redirigiendo a confirmación...', 3000);
+            
+            // Simulación de vaciado de carrito y vuelta al menú
+            setTimeout(() => {
+                cartItems = [];
+                updateCartSummary();
+                navigateTo('view-menu', document.querySelector('[data-view="view-menu"]'));
+            }, 500);
+        }
+
+        /* ------------------------------------------- */
+        /* FUNCIONES DE SOPORTE (EXISTENTES) */
+        /* ------------------------------------------- */
+
+        /**
+         * Muestra el formulario de soporte al hacer clic en una categoría.
+         * @param {string} category - La categoría de soporte seleccionada.
+         */
+        function showSupportForm(category) {
+            currentSupportCategory = category;
+            isFormView = true;
+
+            // Ocultar la cuadrícula de categorías y mostrar el formulario
+            document.getElementById('support-categories').classList.add('hidden');
+            document.getElementById('support-form').classList.remove('hidden');
+
+            // Actualizar el título y la función del botón de retroceso
+            document.getElementById('support-title').textContent = category; // Título de la categoría
+            document.getElementById('support-back-button').onclick = goBackInSupport; // Cambiar la función de retroceso
+            
+            // Resetear el formulario (si ya se ha usado)
+            document.getElementById('contact-form').reset();
+
+            // Desplazar al inicio de la vista de soporte
+            document.getElementById('view-support').parentElement.scrollTop = 0;
+            
+            showTemporaryMessage(`Iniciando solicitud para: ${category}`);
+        }
+
+        /**
+         * Maneja el botón de retroceso dentro de la vista de Soporte.
+         */
+        function goBackInSupport() {
+            if (isFormView) {
+                // Si estamos en el formulario, volvemos a las categorías
+                isFormView = false;
+                document.getElementById('support-form').classList.add('hidden');
+                document.getElementById('support-categories').classList.remove('hidden');
+                document.getElementById('support-title').textContent = 'Soporte al Cliente';
+                
+                // Cambiar el botón de vuelta al Menú principal
+                document.getElementById('support-back-button').onclick = () => navigateTo('view-menu', document.querySelector('[data-view="view-menu"]'));
+                
+                showTemporaryMessage('Volviendo a las categorías de soporte.');
+            } else {
+                // Si estamos en las categorías (estado inicial de Soporte), volvemos al Menú
+                navigateTo('view-menu', document.querySelector('[data-view="view-menu"]'));
+            }
+            // Desplazar al inicio de la vista de soporte
+            document.getElementById('view-support').parentElement.scrollTop = 0;
+        }
+
+        /**
+         * Simula la acción de subir un archivo (sin funcionalidad real).
+         */
+        function simulateFileUpload() {
+            showTemporaryMessage('Ventana de selección de archivo abierta. ¡Adjunta tu evidencia!');
+        }
+
+        /**
+         * Procesa el envío del formulario.
+         * @param {Event} event - El evento de envío del formulario.
+         */
+        function submitForm(event) {
+            event.preventDefault(); // Detener el envío real del formulario
+
+            const form = event.target;
+            
+            // Validar campos requeridos (el atributo 'required' ya hace la mayoría)
+            if (!form.checkValidity()) {
+                // Si la validación falla (navegadores ya lo manejan con burbujas),
+                // simulamos un mensaje de error.
+                showTemporaryMessage('Por favor, rellena todos los campos obligatorios.', 3000);
+                return;
+            }
+
+            // Recoger los datos del formulario
+            const data = {
+                nombre: form.nombre.value,
+                apellidos: form.apellidos.value,
+                email: form.email.value,
+                telefono: form.telefono.value,
+                mensaje: form.mensaje.value,
+                categoria: currentSupportCategory
+            };
+
+            // Simulación de envío
+            console.log("Formulario de Soporte Enviado:", data);
+            
+            // Mensaje de éxito
+            showTemporaryMessage(`¡Solicitud enviada para ${data.categoria}! Nos pondremos en contacto contigo en breve.`, 4000);
+            
+            // Volver a la vista de categorías después de un envío exitoso
+            setTimeout(() => {
+                goBackInSupport();
+            }, 500); 
+        }
+
+
+        // Asegura que el contenedor principal simula una experiencia móvil en el entorno
+        window.addEventListener('load', () => {
+            const frame = document.querySelector('.mobile-frame');
+            if (frame) {
+                // Ajusta la altura si no estamos en un entorno móvil real para que se vea bien en el canvas
+                const vh = window.innerHeight * 0.9;
+                frame.style.height = `${vh}px`;
+            }
+            
+            // Inicializar la navegación en la vista de Menú
+            const initialButton = document.querySelector('[data-view="view-menu"]');
+            if(initialButton) {
+                // Llama a navigateTo para establecer el estado inicial correctamente
+                navigateTo('view-menu', initialButton);
+            }
+        });
+    </script>
+</body>
+</html>
