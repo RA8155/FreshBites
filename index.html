@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FreshBites</title>
+    <title>FreshBites - Menú Semanal</title>
     <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -299,8 +299,14 @@
 <body class="p-4 sm:p-8">
 
     <div class="mobile-frame">
-        <!-- 1. BARRA SUPERIOR (Notificaciones) - Replica la imagen -->
-        <header class="bg-black p-2 flex justify-between items-center text-xs border-b border-gray-100">
+        
+        <!-- Contenedor Principal de Vistas -->
+        <main id="app-container" class="overflow-y-auto">
+
+            <!-- 1. VISTA: MENÚ PRINCIPAL (Ahora "Inicio") -->
+            <section id="view-menu" class="view">
+                <!-- Encabezado Fijo del Menú -->
+                        <header class="bg-black p-2 flex justify-between items-center text-xs border-b border-gray-100">
             <!-- Texto 'FreshBites' a la izquierda, color verde -->
             <span class="font-bold text-sm text-white">12:03</span>
             <!-- Batería a la derecha, color verde (RESTAURADO a 92%) -->
@@ -317,25 +323,25 @@
                     <rect x="4" y="6" width="16" height="12" rx="1" fill="currentColor" stroke="none"/> 
                 </svg>
             </div>
-        </header>
+                </header>
 
-        <!-- 2. CONTENEDOR PRINCIPAL SCROLLABLE (Contiene todas las VISTAS) -->
-        <main class="flex-grow overflow-y-auto bg-white">
-            
-            <!-- VISTA 1: MENÚ -->
-            <div id="view-menu" class="view active">
-                <!-- TÍTULO PRINCIPAL DE LA APP - Sticky para la vista de Menú -->
-                <div class="sticky top-0 bg-white z-10 pt-4 pb-3">
-                    <h1 class="main-menu-bar">FreshBites MiDieta</h1>
-                    <p class="text-sm text-gray-600 mt-4 px-1 text-justify">
+<div class="flex items-center justify-end w-full"> <div class="flex items-center space-x-2 bg-green-100 p-2 rounded-full shadow-inner cursor-pointer" onclick="navigateTo('view-cart', document.querySelector('[data-view=\'view-cart\']'))">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-600" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span id="cart-item-count" class="font-bold text-green-700">0</span>
+        <span id="subtotal-amount" class="text-sm font-semibold text-green-800">€0.00</span>
+    </div>
+</div>
+
+                <!-- Contenido principal del menú (Ejemplos de Platos) -->
+                <div class="p-4 space-y-6">
+<h1 class="main-menu-bar">FreshBites MiDieta</h1>
+ <p class="text-sm text-gray-600 mt-4 px-1 text-justify">
                         Selecciona tus platos para la próxima semana. Puedes personalizar cada plato según tus preferencias.
                     </p>
                 </div>
-
-                <!-- LISTA DE PLATOS -->
+                    <!-- Item 1: Plato simple -->
                 <div id="meal-list" class="space-y-4 mt-6">
-                    <!-- Tarjeta de Plato 1 -->
-                    <div class="meal-card">
+                     <div class="meal-card">
                         <div class="flex-grow">
                             <h2 class="text-base font-bold text-gray-800 leading-tight">Menú Nutri-Esencial</h2>
                             <p class="text-xs text-gray-500 mt-1 mb-0 leading-tight">
@@ -356,7 +362,7 @@
                         </div>
                     </div>
 
-                    <!-- Tarjeta de Plato 2 -->
+                    <!-- Item 2: Plato con personalización -->
                     <div class="meal-card">
                         <div class="flex-grow">
                             <h2 class="text-base font-bold text-gray-800 leading-tight">Menú Sabor-Fit</h2>
@@ -378,8 +384,8 @@
                         </div>
                     </div>
 
-                    <!-- Tarjeta de Plato 3 -->
-                    <div class="meal-card">
+                    <!-- Item 3: Otro plato simple -->
+                     <div class="meal-card">
                         <div class="flex-grow">
                             <h2 class="text-base font-bold text-gray-800 leading-tight">Menú Balance</h2>
                             <p class="text-xs text-gray-500 mt-1 mb-0 leading-tight">
@@ -399,8 +405,7 @@
                             </button>
                         </div>
                     </div>
-
-                    <!-- ESPACIADOR -->
+                                        <!-- ESPACIADOR -->
                     <div class="h-4"></div> 
                 </div>
                 
@@ -416,17 +421,14 @@
                         </button>
                     </div>
                 </section>
+            </section>
 
-                <!-- Pequeño espaciador final -->
-                <div class="h-16"></div> 
-            </div>
-
-            <!-- VISTA 1.5: PERSONALIZAR PLATO -->
-            <div id="view-personalize-meal" class="view hidden">
-                 <!-- TÍTULO PRINCIPAL DE LA APP -->
-                <h1 class="main-menu-bar sticky top-0 z-10 p-4">Personalizar menú</h1>
-
-                <div class="p-4">
+            <!-- 2. VISTA: PERSONALIZAR PLATO (Oculta) -->
+            <section id="view-personalize-meal" class="view hidden">
+                <header class="sticky top-0 bg-white shadow-md p-4 z-10">
+                    <h1 class="main-menu-bar sticky top-0 z-10 p-4">Personalizar menú</h1>
+                </header>
+ <div class="p-4">
                     <!-- HEADER DEL PLATO A PERSONALIZAR (VERDE OSCURO - Simula la imagen) -->
                     <div class="personalize-header">
                         <p class="text-sm font-semibold text-gray-200">Personalizando:</p>
@@ -438,14 +440,13 @@
                         </p>
                     </div>
 
-                    <!-- FORMULARIO DE OPCIONES DE PERSONALIZACIÓN -->
+                <main class="p-4 overflow-y-auto pb-20">
                     <form id="personalization-form" onchange="updatePersonalizationPrice()">
-                        <!-- OPCIÓN 1: DIETÉTICAS ESPECÍFICAS (Borde Verde) -->
-                        <div class="option-card dietetic">
-                            <h3 class="option-title" style="color: var(--color-primary);">Opciones Dietéticas</h3>
-                            <p class="option-subtitle">Modifica los ingredientes.</p>
-                            
-                            <select id="option-diet" class="custom-select" name="dietOption">
+
+                        <!-- Opción 1: Dieta -->
+                        <div class="mb-6 bg-gray-50 p-4 rounded-xl shadow-inner">
+                            <label class="block text-sm font-bold text-gray-700 mb-2">1. Ajuste Dietético (+1.50€ algunas opciones)</label>
+                            <select id="option-diet" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150">
                                 <option value="none">Sin Cambios</option>
                                 <option value="lactosa-free">Opción Sin Lactosa</option>
                                 <option value="gluten-free">Opción Sin Gluten</option>
@@ -458,12 +459,10 @@
                             </select>
                         </div>
 
-                        <!-- OPCIÓN 2: SUSTITUCIÓN DE INGREDIENTES (Borde Amarillo) -->
-                        <div class="option-card substitution">
-                            <h3 class="option-title" style="color: var(--color-secondary);">Sustituye cualquier ingrediente por otro</h3>
-                            <p class="option-subtitle">Cambia el componente principal por una alternativa.</p>
-                            
-                            <select id="option-substitute" class="custom-select" name="substitutionOption">
+                        <!-- Opción 2: Sustitución de Proteína -->
+                        <div class="mb-6 bg-gray-50 p-4 rounded-xl shadow-inner">
+                            <label class="block text-sm font-bold text-gray-700 mb-2">2. Sustituir Ingrediente (Simulación)</label>
+                            <select id="option-substitute" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150">
                                 <option value="none">Sin Cambios</option>
                                 <option value="arroz">Cambiar el arroz integral por quinoa (coste: +0.50€)</option>
                                 <option value="pollo">Cambiar el pollo por tofu (coste: +1.50€)</option>
@@ -472,12 +471,10 @@
                             </select>
                         </div>
 
-                        <!-- OPCIÓN 3: AJUSTE DE PORCIONES (Borde Azul) -->
-                        <div class="option-card portion">
-                            <h3 class="option-title" style="color: #3b82f6;">Ajuste de Porciones</h3>
-                            <p class="option-subtitle">Ajusta la cantidad de las porciones.</p>
-                            
-                            <select id="option-portion" class="custom-select" name="portionOption">
+                        <!-- Opción 3: Tamaño de Porción -->
+                        <div class="mb-6 bg-gray-50 p-4 rounded-xl shadow-inner">
+                            <label class="block text-sm font-bold text-gray-700 mb-2">3. Modificar Porción</label>
+                            <select id="option-portion" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 transition duration-150">
                                 <option value="base">Porción Base</option>
                                 <option value="extra-prot">Añade X gramos extra al plato base (coste: +3.00€)</option>
                                 <option value="extra-carb">Reduce la porción de carbohidratos y aumenta ligeramente la porción de
@@ -486,17 +483,16 @@ grasas saludables (coste: +3.75€)</option>
                                 <option value="otro">Otro (especificar)</option>
                             </select>
                         </div>
+                        
+                        <div class="h-20"></div> <!-- Espacio para el footer fijo del formulario -->
                     </form>
-                    
-                    <!-- CANCELAR PERSONALIZACIÓN (NO ESTÁ EN LA IMAGEN PERO ES REQUERIDO) -->
+                </main>
+                
+                <!-- Botones de Acción Fijos del Formulario de Personalización -->
                     <button onclick="cancelPersonalization()" 
                             class="w-full py-3 mt-4 text-center font-bold rounded-lg text-gray-600 bg-gray-200 hover:bg-gray-300 transition duration-150">
                         Cancelar Personalización
                     </button>
-                </div>
-
-                <!-- BOTÓN FIJO INFERIOR (Añadir al Carrito) -->
-                <div class="sticky bottom-0 z-10 p-4 border-t border-gray-200 bg-white shadow-lg">
                     <button class="w-full py-3 rounded-lg text-white font-extrabold transition duration-200 flex justify-between items-center px-6"
                             style="background-color: var(--color-dark-green);"
                             onclick="addPersonalizedMealToCart()">
@@ -504,9 +500,9 @@ grasas saludables (coste: +3.75€)</option>
                         <span id="final-price">(12.99€)</span>
                     </button>
                 </div>
-            </div>
+            </section>
 
-            <!-- VISTA 2: CARRITO (SECCIÓN MODIFICADA) -->
+            <!-- 3. VISTA: CARRITO DE COMPRA (Oculta) -->
             <div id="view-cart" class="view hidden">
                 <h1 class="main-menu-bar sticky top-0 z-10">Mi Carrito</h1>
                 
@@ -537,137 +533,107 @@ grasas saludables (coste: +3.75€)</option>
             </div>
             <!-- FIN DE VISTA 2: CARRITO -->
 
-            <!-- VISTA 3: SOPORTE (Contenido del Immersive anterior - SIN CAMBIOS AQUÍ) -->
-            <div id="view-support" class="view hidden">
-                <!-- BARRA SUPERIOR ESPECÍFICA DE SOPORTE (Verde) -->
-                <div class="bg-green-500 text-white flex items-center p-3 sticky top-0 z-10" style="background-color: var(--color-primary);">
-                    <!-- Botón de Retroceso (Flecha) - Cambia de función según la sub-vista -->
-                    <button id="support-back-button" onclick="goBackInSupport()" class="mr-4 p-1 rounded-full hover:bg-green-400 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+            <!-- 4. VISTA: SOPORTE AL CLIENTE (Oculta) - Mantenida pero sin botón en el footer -->
+            <section id="view-support" class="view hidden">
+                <header class="sticky top-0 bg-green shadow-md p-4 flex items-center z-10 border-b border-gray-100">
+                    <!-- Botón de Retroceso Dinámico -->
+                    <button id="support-back-button" onclick="goBackInSupport()" class="text-gray-500 hover:text-green-600 mr-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
                     </button>
-                    <!-- Título Centrado -->
-                    <h1 class="text-xl font-bold flex-grow text-center pr-8" id="support-title">Soporte al Cliente</h1>
-                </div>
+                    <h1 id="support-title" class="text-xl font-extrabold text-gray-800 flex-grow">Soporte al Cliente</h1>
+                </header>
 
-                <div class="p-4">
-                    
-                    <!-- SUB-VISTA 3.1: CUADRÍCULA DE CATEGORÍAS (Inicialmente visible) -->
-                    <div id="support-categories">
-                        <h2 class="text-xl font-extrabold text-gray-800 mt-6 mb-2">Centro de Ayuda y Soporte</h2>
-                        <p class="text-sm text-gray-600 mb-8">
-                            ¿En qué podemos ayudarte hoy?
-                        </p>
-
-                        <!-- GRID DE CATEGORÍAS (2 columnas x 3 filas) -->
+                <main class="p-4 overflow-y-auto pb-16">
+                    <!-- 4.1 Categorías de Soporte -->
+                    <div id="support-categories" class="space-y-4 mt-2">
+                        <h2 class="text-lg font-bold text-gray-700 mb-4">¿En qué podemos ayudarte?</h2>
+                        
                         <div class="grid grid-cols-2 gap-4">
-                            <!-- Los botones ahora llaman a showSupportForm(categoría) -->
-                            <button class="category-card" onclick="showSupportForm('Suscripciones')">
+                            <button class="category-card" onclick="showSupportForm('Facturas')">
                                 <!-- Icono de Burocracia/Documento/Repetir -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="category-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H7M14 19H10"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M21 9V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v4"/></svg>
                                 <span class="text-xs font-semibold text-gray-700">Facturas</span>
                             </button>
                             
-                            <button class="category-card" onclick="showSupportForm('Pedido/Facturación')">
+                            <button class="category-card" onclick="showSupportForm('Pedido')">
                                 <!-- Icono de Documento/Factura -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="category-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
                                 <span class="text-xs font-semibold text-gray-700">Pedido</span>
                             </button>
                             
-                            <button class="category-card" onclick="showSupportForm('Entrega')">
+                            <button class="category-card" onclick="showSupportForm('Medio de pago')">
                                 <!-- Icono de Ubicación/Mapa -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="category-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="12" r="4"/></svg>
                                 <span class="text-xs font-semibold text-gray-700">Medio de pago</span>
                             </button>
                             
-                            <button class="category-card" onclick="showSupportForm('Productos/Calidad')">
+                            <button class="category-card" onclick="showSupportForm('Productos')">
                                 <!-- Icono de Comida/Hoja (Hoja de planta) -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="category-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.5C15.2 7 18 10 18 10a7 7 0 1 1-9.4-7.5c.2 1 .4 2.1.6 3.1z"/></svg>
                                 <span class="text-xs font-semibold text-gray-700">Producto</span>
                             </button>
                             
-                            <button class="category-card" onclick="showSupportForm('Cuenta/Club')">
+                            <button class="category-card" onclick="showSupportForm('Mi área')">
                                 <!-- Icono de Usuario -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="category-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                                 <span class="text-xs font-semibold text-gray-700">Mi área</span>
                             </button>
                             
-                            <button class="category-card" onclick="showSupportForm('Otro Tema')">
+                            <button class="category-card" onclick="showSupportForm('Otro tema')">
                                 <!-- Icono de Puntos Suspensivos -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="category-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-                                <span class="text-xs font-semibold text-gray-700">Opiniones</span>
+                                <span class="text-xs font-semibold text-gray-700">Otro tema</span>
                             </button>
                         </div>
-                    </div>
-                    
-                    <!-- SUB-VISTA 3.2: FORMULARIO DE CONTACTO (Inicialmente oculto) -->
-                    <div id="support-form" class="hidden">
-                        
-                        <div class="support-form-container">
-                            <h2 class="text-lg font-extrabold text-gray-800 mb-6">
-                                Rellena el formulario
-                            </h2>
-                            <form onsubmit="submitForm(event)" id="contact-form">
-                                <!-- Fila 1: Nombre y Apellidos -->
-                                <div class="grid grid-cols-2 gap-4 mb-4">
-                                    <div>
-                                        <label for="nombre" class="label-text">Nombre</label>
-                                        <input type="text" id="nombre" name="nombre" class="input-field" placeholder="Maria" required>
-                                    </div>
-                                    <div>
-                                        <label for="apellidos" class="label-text">Apellidos</label>
-                                        <input type="text" id="apellidos" name="apellidos" class="input-field" placeholder="Garcia Hernández" required>
-                                    </div>
-                                </div>
-                                
-                                <!-- Fila 2: E-mail y N° de teléfono -->
-                                <div class="grid grid-cols-2 gap-4 mb-4">
-                                    <div>
-                                        <label for="email" class="label-text">E-mail</label>
-                                        <input type="email" id="email" name="email" class="input-field" placeholder="ejemplo@gmail.com" required>
-                                    </div>
-                                    <div>
-                                        <!-- Opcional: El único campo opcional -->
-                                        <label for="telefono" class="label-text">Nº de teléfono (Opcional)</label>
-                                        <input type="tel" id="telefono" name="telefono" class="input-field" placeholder="673...">
-                                    </div>
-                                </div>
-                                
-                                <!-- Fila 3: Tu mensaje -->
-                                <div class="mb-6">
-                                    <label for="mensaje" class="label-text">Tu mensaje</label>
-                                    <textarea id="mensaje" name="mensaje" class="input-field textarea-field" placeholder="Tu texto aquí..." required></textarea>
-                                </div>
-                                
-                                <!-- Fila 4: Botones de Acción -->
-                                <div class="flex space-x-2">
-                                    
-                                    <!-- Botón de Adjuntar Archivos (Simulado) -->
-                                    <button type="button" onclick="simulateFileUpload()" 
-                                            class="flex items-center justify-center flex-grow py-3 px-4 rounded-lg text-white font-bold transition duration-200"
-                                            style="background-color: var(--color-primary);">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                                        Pulsa aquí para adjuntar archivos
-                                    </button>
-                                    
-                                    <!-- Botón de Enviar (Amarillo) -->
-                                    <button type="submit" 
-                                            class="py-3 px-6 rounded-lg font-bold transition duration-200"
-                                            style="background-color: var(--color-secondary); color: var(--color-text-dark);">
-                                        ENVIAR
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
                         
                     </div>
                     
-                    <!-- Espaciador -->
-                    <div class="h-24"></div>
-                </div>
-            </div>
+                    <!-- 4.2 Formulario de Contacto (Oculto por defecto) -->
+                    <div id="support-form" class="hidden mt-4">
+                        <form id="contact-form" onsubmit="submitForm(event)">
+                            <p class="text-sm text-gray-600 mb-4">Por favor, rellena los siguientes campos. Un agente te atenderá en las próximas 5 horas (GOLD) o 24 horas (Miembro).</p>
+                            
+                            <div class="mb-4">
+                                <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre (*)</label>
+                                <input type="text" id="nombre" name="nombre" required class="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:border-green-500 focus:ring-green-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos</label>
+                                <input type="text" id="apellidos" name="apellidos" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:border-green-500 focus:ring-green-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email (*)</label>
+                                <input type="email" id="email" name="email" required class="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:border-green-500 focus:ring-green-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
+                                <input type="tel" id="telefono" name="telefono" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:border-green-500 focus:ring-green-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="mensaje" class="block text-sm font-medium text-gray-700">Mensaje/Detalle del Problema (*)</label>
+                                <textarea id="mensaje" name="mensaje" rows="4" required class="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:border-green-500 focus:ring-green-500"></textarea>
+                            </div>
 
-            <!-- VISTA 4: CLUB -->
-            <div id="view-club" class="view hidden px-4 py-4">
+                            <!-- Simulación de subida de archivo -->
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Adjuntar Evidencia (Opcional)</label>
+                                <input type="file" id="archivo" name="archivo" onchange="simulateFileUpload()" class="hidden">
+                                <button type="button" onclick="document.getElementById('archivo').click()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-4 rounded-full transition duration-150 shadow-md flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19"/></svg>
+                                    Adjuntar Archivo
+                                </button>
+                            </div>
+
+                            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-full transition duration-150 shadow-lg transform hover:scale-[1.01]">
+                                Enviar Solicitud
+                            </button>
+                        </form>
+                    </div>
+                </main>
+            </section>
+            
+            <!-- 5. VISTA: CLUB DE FIDELIDAD (Ahora "Papa Puntos") -->
+             <div id="view-club" class="view hidden px-4 py-4">
                 
                 <!-- 1. TARJETA DE PERFIL Y PUNTOS (HEADER) -->
                 <div class="bg-gray-800 p-6 rounded-xl shadow-lg text-white mb-6">
@@ -689,7 +655,7 @@ grasas saludables (coste: +3.75€)</option>
 
                     <!-- PUNTOS Y BARRA DE PROGRESO -->
                     <div class="mt-6">
-                        <h3 class="text-4xl font-extrabold text-yellow-400">1.250 pts</h3>
+                        <h3 class="text-4xl font-extrabold text-yellow-400">1.250 Papa Pts </h3>
                         <p class="text-sm text-gray-400 mt-1">Acumulados hasta la fecha</p>
                         
                         <div class="progress-bar-container mt-4">
@@ -705,11 +671,11 @@ grasas saludables (coste: +3.75€)</option>
                 
                 <!-- 2. INTRODUCCIÓN Y REGLAS BÁSICAS -->
                 <p class="text-sm text-gray-600 mb-6 text-justify">
-                    FreshBites Plus está diseñado para recompensar tu confianza y participación activa. Acumula puntos y canjéalos por descuentos, regalos y mejoras en tu servicio.
+                    FreshBites Plus está diseñado para recompensar tu confianza y participación activa. Acumula Papa puntos y canjéalos por descuentos, regalos y mejoras en tu servicio.
                 </p>
 
                 <!-- 3. CÓMO GANAR PUNTOS (Tarjetas) -->
-                <h2 class="text-lg font-bold text-gray-800 mb-6 mt-8">¡Multiplica tus Puntos!</h2>
+                <h2 class="text-lg font-bold text-gray-800 mb-6 mt-8">¡Multiplica tus Papa puntos!</h2>
                 
                 <div class="space-y-3">
                     <!-- Compras -->
@@ -717,7 +683,7 @@ grasas saludables (coste: +3.75€)</option>
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green-600 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                         <div>
                             <h3 class="font-semibold text-gray-800">Comprar Menú</h3>
-                            <p class="text-xs text-gray-500">Gana <span class="font-bold text-green-700">5 puntos</span> por cada 10€ de compra. ¡GOLD gana 6,25 puntos!</p>
+                            <p class="text-xs text-gray-500">Gana <span class="font-bold text-green-700">5 Papa puntos</span> por cada 10€ de compra. ¡GOLD gana 6,25 Papa puntos!</p>
                         </div>
                     </div>
                     
@@ -726,7 +692,7 @@ grasas saludables (coste: +3.75€)</option>
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-yellow-600 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"/><path d="M12 6v6l4 2"/></svg>
                         <div>
                             <h3 class="font-semibold text-gray-800">Personalizar con MiDieta</h3>
-                            <p class="text-xs text-gray-500">Recibe <span class="font-bold text-green-700">10puntos</span> por usar el sistema de personalización de menú. ¡GOLD gana 20 puntos!</p>
+                            <p class="text-xs text-gray-500">Recibe <span class="font-bold text-green-700">10 Papa puntos</span> por usar el sistema de personalización de menú. ¡GOLD gana 20 Papa puntos!</p>
                         </div>
                     </div>
 
@@ -735,7 +701,7 @@ grasas saludables (coste: +3.75€)</option>
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-blue-600 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                         <div>
                             <h3 class="font-semibold text-gray-800">Completar Formulario Post-Entrega</h3>
-                            <p class="text-xs text-gray-500">Gana <span class="font-bold text-green-700">30 puntos</span> por darnos tu valiosa opinión sobre el servicio. ¡GOLD gana 45 puntos!</p>
+                            <p class="text-xs text-gray-500">Gana <span class="font-bold text-green-700">30 Papa puntos</span> por darnos tu valiosa opinión sobre el servicio. ¡GOLD gana 45 Papa puntos!</p>
                         </div>
                     </div>
 
@@ -744,13 +710,13 @@ grasas saludables (coste: +3.75€)</option>
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-indigo-600 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 17H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2z"/><path d="M17 17l4 4"/></svg>
                         <div>
                             <h3 class="font-semibold text-gray-800">Referir un Amigo</h3>
-                            <p class="text-xs text-gray-500">Obtén <span class="font-bold text-green-700">200 puntos</span> si traes un nuevo cliente. ¡GOLD obtiene 400 puntos!</p>
+                            <p class="text-xs text-gray-500">Obtén <span class="font-bold text-green-700">200 Papa puntos</span> si traes un nuevo cliente. ¡GOLD obtiene 400 Papa puntos!</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- 4. RECOMPENSAS POR CANJEAR PUNTOS -->
-                <h2 class="text-lg font-bold text-gray-800 mb-4 mt-8">Canjea tus puntos y disfruta</h2>
+                <h2 class="text-lg font-bold text-gray-800 mb-4 mt-8">Canjea tus Papa puntos y disfruta</h2>
                 
                 <div class="space-y-3 mb-8">
                     <!-- 500 Puntos -->
@@ -787,7 +753,7 @@ grasas saludables (coste: +3.75€)</option>
                     <ul class="space-y-3 text-sm text-gray-800">
                         <li class="flex items-start">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-1 mr-2 text-yellow-600 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H7M14 19H10"/></svg>
-                            <span class="leading-snug">Gana puntos mucho más rápido que el nivel Miembro.</span>
+                            <span class="leading-snug">Gana Papa puntos mucho más rápido que el nivel Miembro.</span>
                         </li>
                         <li class="flex items-start">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-1 mr-2 text-yellow-600 flex-shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"/><path d="M12 6v6l4 2"/></svg>
@@ -808,32 +774,197 @@ grasas saludables (coste: +3.75€)</option>
                 <div class="h-8"></div> 
             </div>
 
+
+            <!-- 6. VISTA: PEDIDOS (Modificada para parecerse a la imagen) -->
+            <section id="view-orders" class="view hidden">
+                <!-- Encabezado Fijo del Menú -->
+                <header class="sticky top-0 bg-white p-4 z-10 shadow-sm">
+                    <h1 class="text-2xl font-extrabold text-green-700 text-center mb-2">MIS PEDIDOS</h1>
+                </header>
+                
+                <!-- Barra de Pestañas (Sticky, justo debajo del título) -->
+                <div class="sticky top-[73px] bg-white border-b border-gray-200 flex text-center text-sm z-10">
+                    <button id="tab-actuales" class="tab-button active-tab" onclick="showOrderTab('current')">
+                        PEDIDOS ACTUALES
+                    </button>
+                    <button id="tab-pasados" class="tab-button" onclick="showOrderTab('past')">
+                        PEDIDOS PASADOS
+                    </button>
+                </div>
+                
+                <main class="overflow-y-auto pb-16 bg-gray-100 p-4">
+                    <!-- Contenido de la Pestaña de Pedidos Actuales -->
+                    <div id="content-current-orders" class="space-y-4 pt-4">
+                        <!-- Card 1 (Similar al de la imagen para Pedidos Actuales) -->
+                        <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200">
+                            <p class="text-xs text-gray-500 mb-2 font-semibold">PEDIDO EN PREPARACIÓN</p>
+                            <h3 class="font-extrabold text-lg text-green-700 uppercase mb-3">#4567 - ENTREGA EN 20 MIN</h3>
+
+                            <!-- Línea de Producto -->
+                            <div class="flex justify-between items-start mb-1">
+                                <div class="flex-grow">
+                                    <p class="font-bold text-gray-800 uppercase text-sm">MARGARITA CLÁSICA</p>
+                                    <p class="text-xs text-gray-500 italic">Masa fina, Mozzarella, Albahaca fresca.</p>
+                                </div>
+                                <span class="text-sm font-bold text-gray-600 ml-4 flex-shrink-0">x1</span>
+                            </div>
+
+                            <!-- Línea de Producto -->
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="flex-grow">
+                                    <p class="font-bold text-gray-800 uppercase text-sm">Aros de Cebolla</p>
+                                    <p class="text-xs text-gray-500 italic">Con salsa BBQ especial.</p>
+                                </div>
+                                <span class="text-sm font-bold text-gray-600 ml-4 flex-shrink-0">x1</span>
+                            </div>
+
+                            <!-- Total y Botón -->
+                            <div class="flex justify-between items-center border-t pt-3 mt-3">
+                                <p class="font-extrabold text-xl text-gray-800">TOTAL: <span class="text-green-700">25€</span></p>
+                                <button onclick="showTemporaryMessage('Simulación de seguimiento en vivo.')" class="border border-green-700 text-green-700 font-bold py-2 px-4 rounded-full text-sm hover:bg-green-50 transition duration-150 shadow-sm">
+                                    SEGUIR PEDIDO
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Mensaje si no hay pedidos actuales -->
+                        <div id="no-current-orders-msg" class="text-center p-8 bg-white rounded-xl shadow-inner border border-gray-200 mt-4 hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon w-8 h-8 mx-auto mb-3 text-red-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16"/></svg>
+                            <p class="text-sm font-semibold text-gray-700">No tienes pedidos en curso.</p>
+                        </div>
+                    </div>
+
+                    <!-- Contenido de la Pestaña de Pedidos Pasados (Oculto por defecto) -->
+                    <div id="content-past-orders" class="space-y-4 pt-4 hidden">
+                        
+                        <!-- Card 1: Pedido Pasado (Mismo formato que la imagen) -->
+                        <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200">
+                            <p class="text-sm text-gray-500 mb-3">23/08/2025</p>
+
+                            <!-- Línea de Producto 1 -->
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex-grow min-w-0 pr-2">
+                                    <p class="font-bold text-gray-800 uppercase text-sm">CANADIAN BACON</p>
+                                    <p class="text-xs text-gray-600 italic">Familiar, Tradicional.</p>
+                                    <p class="text-xs text-gray-500 mt-1 truncate">Salsa Tomate, Salsa regular, Mozzarella base, Tocino, Lomito Canadiense, Parmesano y Romano</p>
+                                </div>
+                                <span class="text-sm font-bold text-gray-600 ml-4 flex-shrink-0">x1</span>
+                            </div>
+
+                            <!-- Línea de Producto 2 -->
+                            <div class="flex justify-between items-start mb-4 border-t border-dashed border-gray-200 pt-2">
+                                <div class="flex-grow min-w-0 pr-2">
+                                    <p class="font-bold text-gray-800 uppercase text-sm">CHICKEN POPPERS</p>
+                                    <p class="text-xs text-gray-500 italic">12 Unidades</p>
+                                </div>
+                                <span class="text-sm font-bold text-gray-600 ml-4 flex-shrink-0">x1</span>
+                            </div>
+
+                            <!-- Total y Botón -->
+                            <div class="flex justify-between items-center border-t border-gray-100 pt-3">
+                                <p class="font-extrabold text-xl text-gray-800">TOTAL: <span class="text-green-700">22€</span></p>
+                                <button onclick="showTemporaryMessage('¡Pedido repetido y añadido al carrito!', 2000)" class="border border-green-700 text-green-700 font-bold py-2 px-4 rounded-full text-sm hover:bg-green-50 transition duration-150 shadow-sm">
+                                    REPETIR PEDIDO
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Pedido Pasado (Mismo formato que la imagen) -->
+                        <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200">
+                            <p class="text-sm text-gray-500 mb-3">24/07/2025</p>
+
+                            <!-- Línea de Producto 1 -->
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex-grow min-w-0 pr-2">
+                                    <p class="font-bold text-gray-800 uppercase text-sm">XL FEST: EXTRA GRANDES, EXTRA CONVENIENTES</p>
+                                    <p class="text-xs text-gray-600 italic">Super Pepperoni Extra grande, Masa Maestra.</p>
+                                    <p class="text-xs text-gray-500 mt-1 truncate">Salsa Tomate, Salsa regular, Extra Mozzarella, Pepperoni</p>
+                                </div>
+                                <span class="text-sm font-bold text-gray-600 ml-4 flex-shrink-0">x1</span>
+                            </div>
+
+                            <!-- Línea de Producto 2 -->
+                            <div class="flex justify-between items-start mb-4 border-t border-dashed border-gray-200 pt-2">
+                                <div class="flex-grow min-w-0 pr-2">
+                                    <p class="font-bold text-gray-800 uppercase text-sm">Rolls Pepperoni Roll</p>
+                                    <p class="text-xs text-gray-500 italic">8 Unidades</p>
+                                </div>
+                                <span class="text-sm font-bold text-gray-600 ml-4 flex-shrink-0">x1</span>
+                            </div>
+
+                            <!-- Total y Botón -->
+                            <div class="flex justify-between items-center border-t border-gray-100 pt-3">
+                                <p class="font-extrabold text-xl text-gray-800">TOTAL: <span class="text-green-700">18€</span></p>
+                                <button onclick="showTemporaryMessage('¡Pedido repetido y añadido al carrito!', 2000)" class="border border-green-700 text-green-700 font-bold py-2 px-4 rounded-full text-sm hover:bg-green-50 transition duration-150 shadow-sm">
+                                    REPETIR PEDIDO
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Mensaje si no hay pedidos pasados -->
+                         <div id="no-past-orders-msg" class="text-center p-8 bg-white rounded-xl shadow-inner border border-gray-200 mt-4 hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon w-8 h-8 mx-auto mb-3 text-gray-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"/><path d="M12 6v6l4 2"/></svg>
+                            <p class="text-sm font-semibold text-gray-700">No se encontraron pedidos anteriores a esta fecha.</p>
+                        </div>
+                    </div>
+                </main>
+            </section>
+            
+            <!-- 7. VISTA: PERFIL (Nueva vista placeholder) -->
+            <section id="view-profile" class="view hidden">
+                <h1 class="main-menu-bar">Mi perfil</h1>
+                <main class="p-4 overflow-y-auto pb-16">
+                    <div class="text-center p-8 bg-gray-50 rounded-xl shadow-inner mt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon w-10 h-10 mx-auto mb-4 text-gray-400" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <p class="text-lg font-bold text-gray-700">Configuración de Cuenta y Datos.</p>
+                        <p class="text-sm text-gray-500 mt-2">Aquí gestionarás tu información, direcciones y preferencias.</p>
+                        <!-- Enlace de ejemplo a Soporte -->
+                        <button onclick="navigateTo('view-support', null)" class="mt-4 text-sm font-semibold text-blue-600 hover:text-blue-700">
+                            ¿Necesitas ayuda? (Soporte)
+                        </button>
+                    </div>
+                </main>
+            </section>
+
+
         </main>
 
-        <!-- 4. BARRA DE NAVEGACIÓN INFERIOR FIJA -->
-        <footer class="bg-white border-t border-gray-200 p-2 flex justify-around items-center text-xs text-gray-500">
-            <!-- Menú (Activo por defecto) -->
+        <!-- 8. BARRA DE NAVEGACIÓN INFERIOR FIJA (5 Elementos) -->
+        <footer class="bg-white border-t border-gray-200 p-2 flex justify-around items-center text-xs text-gray-500 fixed bottom-0 left-0 right-0 max-w-[420px] mx-auto z-30">
+            
+            <!-- 1. Inicio (Menu) -->
             <button data-view="view-menu" class="flex flex-col items-center text-center text-green-600 font-semibold" onclick="navigateTo('view-menu', this)">
-                <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
-                <span>Menú</span>
+                <!-- Icono de Pizza (Simulando el del adjunto) -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 8-8 10-8-10z"/><circle cx="12" cy="12" r="1"/><circle cx="10" cy="8" r="1"/><circle cx="14" cy="8" r="1"/></svg>
+                <span>Inicio</span>
             </button>
             
-            <!-- Carrito -->
+            <!-- 2. Papa Puntos (Club) -->
+            <button data-view="view-club" class="flex flex-col items-center text-center text-gray-500 hover:text-green-600" onclick="navigateTo('view-club', this)">
+                <!-- Icono de Estrella (Papa Puntos) -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>Papa Puntos</span>
+            </button>
+            
+            <!-- 3. Carrito -->
             <button data-view="view-cart" class="flex flex-col items-center text-center text-gray-500 hover:text-green-600" onclick="navigateTo('view-cart', this)">
-                <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <!-- Icono de Carrito -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
                 <span>Carrito</span>
             </button>
             
-            <!-- Soporte -->
-            <button data-view="view-support" class="flex flex-col items-center text-center text-gray-500 hover:text-green-600" onclick="navigateTo('view-support', this)">
-                <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 0 10 10c0 4.418-2.686 8.441-6.703 9.771l-1.666-.833a10 10 0 0 0-1.631-.479c-4.418 0-8-3.582-8-8s3.582-8 8-8z"/><path d="M12 16.5V12"/><path d="M12 8h.01"/></svg>
-                <span>Soporte</span>
+            <!-- 4. Pedidos (Nuevo) -->
+            <button data-view="view-orders" class="flex flex-col items-center text-center text-gray-500 hover:text-green-600" onclick="navigateTo('view-orders', this)">
+                <!-- Icono de Recibo (Para Pedidos) - Tono verde para el activo (simulando el adjunto) -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+                <span>Pedidos</span>
             </button>
-            
-            <!-- Club -->
-            <button data-view="view-club" class="flex flex-col items-center text-center text-gray-500 hover:text-green-600" onclick="navigateTo('view-club', this)">
-                <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span>Club</span>
+
+            <!-- 5. Perfil (Nuevo) -->
+            <button data-view="view-profile" class="flex flex-col items-center text-center text-gray-500 hover:text-green-600" onclick="navigateTo('view-profile', this)">
+                <!-- Icono de Perfil/Usuario -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Perfil</span>
             </button>
         </footer>
 
@@ -896,11 +1027,11 @@ grasas saludables (coste: +3.75€)</option>
             
             // Actualizar la interfaz del menú principal
             document.getElementById('cart-item-count').textContent = totalCount;
-            // Usando el símbolo $
+            // Usando el símbolo €
             document.getElementById('subtotal-amount').textContent = '€' + totalSubtotal.toFixed(2);
             
             // Renderizar la vista de Carrito si estamos en ella (para mantener la consistencia)
-            if (!document.getElementById('view-cart').classList.contains('hidden')) {
+            if (document.getElementById('view-cart') && !document.getElementById('view-cart').classList.contains('hidden')) {
                 renderCart();
             }
         }
@@ -923,7 +1054,10 @@ grasas saludables (coste: +3.75€)</option>
                 targetView.classList.remove('hidden');
                 targetView.classList.add('active'); // Marcar la vista activa
                 // Al cambiar de vista, forzar el scroll al inicio de la página.
-                targetView.parentElement.scrollTop = 0; 
+                const mainContent = document.getElementById('app-container');
+                if (mainContent) {
+                    mainContent.scrollTop = 0; 
+                }
             }
             
             // 3. Actualizar el estado activo de la barra de navegación (footer)
@@ -937,6 +1071,7 @@ grasas saludables (coste: +3.75€)</option>
             const footerButton = document.querySelector(`footer button[data-view="${viewId}"]`);
 
             if (footerButton) {
+                // Si el botón está en el footer, lo activamos
                 footerButton.classList.add('text-green-600', 'font-semibold');
                 footerButton.classList.remove('text-gray-500');
             }
@@ -946,17 +1081,25 @@ grasas saludables (coste: +3.75€)</option>
                 renderCart(); // *** IMPORTANTE: Renderiza el carrito cuando se navega a esta vista ***
             } else if (viewId === 'view-menu') {
                 updateCartSummary(); // Asegurar que el resumen del menú esté correcto
+            } else if (viewId === 'view-orders') {
+                // Al navegar a pedidos, asegurar que se muestre la pestaña de pedidos actuales por defecto
+                showOrderTab('current'); 
             }
 
             // 6. Resetear el estado del Soporte si no estamos navegando a 'view-support'
             if (viewId !== 'view-support') {
                  isFormView = false;
                  // Asegurar que la vista de categorías se muestre por defecto al volver
-                 document.getElementById('support-categories').classList.remove('hidden');
-                 document.getElementById('support-form').classList.add('hidden');
-                 document.getElementById('support-title').textContent = 'Soporte al Cliente';
-                 // Cambiar el botón de vuelta al Menú
-                 document.getElementById('support-back-button').onclick = () => navigateTo('view-menu', document.querySelector('[data-view="view-menu"]'));
+                 const categories = document.getElementById('support-categories');
+                 const form = document.getElementById('support-form');
+                 const title = document.getElementById('support-title');
+                 const backButton = document.getElementById('support-back-button');
+
+                 if (categories) categories.classList.remove('hidden');
+                 if (form) form.classList.add('hidden');
+                 if (title) title.textContent = 'Soporte al Cliente';
+                 // Cambiar el botón de vuelta al Menú (ahora Inicio)
+                 if (backButton) backButton.onclick = () => navigateTo('view-menu', document.querySelector('[data-view="view-menu"]'));
             }
         }
 
@@ -964,6 +1107,8 @@ grasas saludables (coste: +3.75€)</option>
         // Función para mostrar mensajes temporales (reemplazando alert())
         function showTemporaryMessage(message, duration = 1500) {
             const messageBox = document.getElementById('message-box');
+            if (!messageBox) return;
+
             messageBox.textContent = message;
             messageBox.classList.remove('hidden', 'opacity-0');
             messageBox.classList.add('opacity-100');
@@ -978,7 +1123,7 @@ grasas saludables (coste: +3.75€)</option>
         }
 
         /* ------------------------------------------- */
-        /* FUNCIONES DE PERSONALIZACIÓN DEL PLATO (EXISTENTES) */
+        /* FUNCIONES DE PERSONALIZACIÓN DEL PLATO */
         /* ------------------------------------------- */
 
         /**
@@ -994,14 +1139,15 @@ grasas saludables (coste: +3.75€)</option>
 
             // 2. Actualizar la interfaz
             document.getElementById('personalize-meal-name').textContent = mealName;
-            document.getElementById('personalize-base-price').textContent = `$${basePrice.toFixed(2)}`;
+            document.getElementById('personalize-base-price').textContent = `€${basePrice.toFixed(2)}`;
             
             // 3. Resetear el formulario y actualizar el precio final
             document.getElementById('personalization-form').reset();
-            document.getElementById('final-price').textContent = `($${currentFinalPrice.toFixed(2)})`;
+            document.getElementById('final-price').textContent = `(€${currentFinalPrice.toFixed(2)})`;
 
             // 4. Navegar a la vista de personalización (sin cambiar el botón activo del footer)
-            navigateTo('view-personalize-meal');
+            // Se usa null como clickedButton para evitar el cambio de estilo del footer
+            navigateTo('view-personalize-meal', null); 
         }
 
         /**
@@ -1011,9 +1157,9 @@ grasas saludables (coste: +3.75€)</option>
             let priceAdjustment = 0;
             
             // Simulación de los costes de las opciones (basado en el texto de los options)
-            const dietOption = document.getElementById('option-diet').value;
-            const substitutionOption = document.getElementById('option-substitute').value;
-            const portionOption = document.getElementById('option-portion').value;
+            const dietOption = document.getElementById('option-diet')?.value;
+            const substitutionOption = document.getElementById('option-substitute')?.value;
+            const portionOption = document.getElementById('option-portion')?.value;
 
             // Opción 1: Dietética
             if (dietOption === 'keto' || dietOption === 'paleo') {
@@ -1041,7 +1187,7 @@ grasas saludables (coste: +3.75€)</option>
             if (currentFinalPrice < 0) currentFinalPrice = 0; // Prevenir precios negativos
 
             // Actualizar la etiqueta del botón
-            document.getElementById('final-price').textContent = `($${currentFinalPrice.toFixed(2)})`;
+            document.getElementById('final-price').textContent = `(€${currentFinalPrice.toFixed(2)})`;
         }
 
         /**
@@ -1065,7 +1211,7 @@ grasas saludables (coste: +3.75€)</option>
             });
 
             updateCartSummary();
-            showTemporaryMessage(`¡Plato '${currentMealName}' personalizado y añadido al carrito por $${currentFinalPrice.toFixed(2)}!`);
+            showTemporaryMessage(`¡Plato '${currentMealName}' personalizado y añadido al carrito por €${currentFinalPrice.toFixed(2)}!`);
             cancelPersonalization(); // Vuelve al menú principal
         }
         
@@ -1078,7 +1224,7 @@ grasas saludables (coste: +3.75€)</option>
         }
 
         /* ------------------------------------------- */
-        /* FUNCIONES DEL CARRITO (NUEVAS/MODIFICADAS) */
+        /* FUNCIONES DEL CARRITO */
         /* ------------------------------------------- */
 
         /**
@@ -1088,6 +1234,10 @@ grasas saludables (coste: +3.75€)</option>
         function renderCart() {
             const container = document.getElementById('cart-list-container');
             const summaryBox = document.getElementById('cart-checkout-summary');
+            const totalAmountSpan = document.getElementById('cart-total-amount');
+
+            if (!container || !summaryBox || !totalAmountSpan) return;
+            
             let totalSubtotal = 0.00;
             let cartHTML = '';
 
@@ -1102,7 +1252,7 @@ grasas saludables (coste: +3.75€)</option>
                 `;
                 summaryBox.classList.add('hidden');
             } else {
-                // Si hay items, construir la lista de items (Simulando el diseño de la imagen)
+                // Si hay items, construir la lista de items
                 cartItems.forEach(item => {
                     const itemTotal = item.price * item.quantity;
                     totalSubtotal += itemTotal;
@@ -1114,11 +1264,11 @@ grasas saludables (coste: +3.75€)</option>
                             <div class="flex-grow min-w-0 pr-2">
                                 <p class="font-bold text-sm text-gray-800 truncate">${item.name}</p>
                                 <p class="text-xs text-gray-500 mt-0">
-                                    Precio Unitario: <span class="text-green-600 font-semibold">$${item.price.toFixed(2)}</span>
+                                    Precio Unitario: <span class="text-green-600 font-semibold">€${item.price.toFixed(2)}</span>
                                 </p>
                             </div>
                             
-                            <!-- Control de Cantidad (Simula el diseño de la imagen) -->
+                            <!-- Control de Cantidad -->
                             <div class="flex items-center space-x-1 border border-gray-300 rounded-full px-1 py-0.5 shadow-sm flex-shrink-0">
                                 <button onclick="updateQuantity('${item.id}', -1)" class="w-6 h-6 text-xl font-bold rounded-full text-red-500 leading-none pb-0.5 hover:bg-red-50 transition duration-150">
                                     &minus;
@@ -1131,14 +1281,14 @@ grasas saludables (coste: +3.75€)</option>
 
                             <!-- Precio Total del Item (A la derecha) -->
                             <div class="ml-4 text-right flex-shrink-0">
-                                <p class="font-extrabold text-lg text-gray-800">$${itemTotal.toFixed(2)}</p>
+                                <p class="font-extrabold text-lg text-gray-800">€${itemTotal.toFixed(2)}</p>
                             </div>
                         </div>
                     `;
                 });
                 
                 // Actualizar el resumen fijo
-                document.getElementById('cart-total-amount').textContent = `$${totalSubtotal.toFixed(2)}`;
+                totalAmountSpan.textContent = `€${totalSubtotal.toFixed(2)}`;
                 summaryBox.classList.remove('hidden');
             }
 
@@ -1188,7 +1338,41 @@ grasas saludables (coste: +3.75€)</option>
         }
 
         /* ------------------------------------------- */
-        /* FUNCIONES DE SOPORTE (EXISTENTES) */
+        /* FUNCIONES DE PEDIDOS (NUEVAS Y MODIFICADAS) */
+        /* ------------------------------------------- */
+
+        /**
+         * Cambia entre las pestañas de Pedidos Actuales y Pedidos Pasados.
+         * @param {string} tabName - 'current' o 'past'.
+         */
+        function showOrderTab(tabName) {
+            const currentContent = document.getElementById('content-current-orders');
+            const pastContent = document.getElementById('content-past-orders');
+            const currentTabButton = document.getElementById('tab-actuales');
+            const pastTabButton = document.getElementById('tab-pasados');
+
+            if (tabName === 'current') {
+                currentContent.classList.remove('hidden');
+                pastContent.classList.add('hidden');
+                currentTabButton.classList.add('active-tab');
+                pastTabButton.classList.remove('active-tab');
+            } else if (tabName === 'past') {
+                currentContent.classList.add('hidden');
+                pastContent.classList.remove('hidden');
+                currentTabButton.classList.remove('active-tab');
+                pastTabButton.classList.add('active-tab');
+            }
+            
+             // Asegurar que se haga scroll a la parte superior de la nueva pestaña
+             const mainContent = document.getElementById('app-container');
+             if (mainContent) {
+                 mainContent.scrollTop = 0;
+             }
+        }
+
+
+        /* ------------------------------------------- */
+        /* FUNCIONES DE SOPORTE */
         /* ------------------------------------------- */
 
         /**
@@ -1211,7 +1395,8 @@ grasas saludables (coste: +3.75€)</option>
             document.getElementById('contact-form').reset();
 
             // Desplazar al inicio de la vista de soporte
-            document.getElementById('view-support').parentElement.scrollTop = 0;
+            const mainContent = document.getElementById('app-container');
+            if (mainContent) mainContent.scrollTop = 0;
             
             showTemporaryMessage(`Iniciando solicitud para: ${category}`);
         }
@@ -1227,23 +1412,27 @@ grasas saludables (coste: +3.75€)</option>
                 document.getElementById('support-categories').classList.remove('hidden');
                 document.getElementById('support-title').textContent = 'Soporte al Cliente';
                 
-                // Cambiar el botón de vuelta al Menú principal
+                // Cambiar el botón de vuelta al Menú principal (Inicio)
                 document.getElementById('support-back-button').onclick = () => navigateTo('view-menu', document.querySelector('[data-view="view-menu"]'));
                 
                 showTemporaryMessage('Volviendo a las categorías de soporte.');
             } else {
-                // Si estamos en las categorías (estado inicial de Soporte), volvemos al Menú
+                // Si estamos en las categorías (estado inicial de Soporte), volvemos al Menú (Inicio)
                 navigateTo('view-menu', document.querySelector('[data-view="view-menu"]'));
             }
             // Desplazar al inicio de la vista de soporte
-            document.getElementById('view-support').parentElement.scrollTop = 0;
+            const mainContent = document.getElementById('app-container');
+            if (mainContent) mainContent.scrollTop = 0;
         }
 
         /**
          * Simula la acción de subir un archivo (sin funcionalidad real).
          */
         function simulateFileUpload() {
-            showTemporaryMessage('Ventana de selección de archivo abierta. ¡Adjunta tu evidencia!');
+            // Se usa setTimeout para asegurar que el mensaje aparece después de interactuar con el diálogo del archivo.
+            setTimeout(() => {
+                showTemporaryMessage('Archivo adjunto (simulado). Listo para enviar.');
+            }, 50);
         }
 
         /**
@@ -1257,13 +1446,12 @@ grasas saludables (coste: +3.75€)</option>
             
             // Validar campos requeridos (el atributo 'required' ya hace la mayoría)
             if (!form.checkValidity()) {
-                // Si la validación falla (navegadores ya lo manejan con burbujas),
-                // simulamos un mensaje de error.
+                // Si la validación falla
                 showTemporaryMessage('Por favor, rellena todos los campos obligatorios.', 3000);
                 return;
             }
 
-            // Recoger los datos del formulario
+            // Recoger los datos del formulario (Simulación)
             const data = {
                 nombre: form.nombre.value,
                 apellidos: form.apellidos.value,
@@ -1295,7 +1483,7 @@ grasas saludables (coste: +3.75€)</option>
                 frame.style.height = `${vh}px`;
             }
             
-            // Inicializar la navegación en la vista de Menú
+            // Inicializar la navegación en la vista de Menú (Inicio)
             const initialButton = document.querySelector('[data-view="view-menu"]');
             if(initialButton) {
                 // Llama a navigateTo para establecer el estado inicial correctamente
