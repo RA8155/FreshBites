@@ -342,7 +342,7 @@
 <div class="flex items-center justify-end w-full"> <div class="flex items-center space-x-2 bg-green-100 p-2 rounded-full shadow-inner cursor-pointer" onclick="navigateTo('view-cart', document.querySelector('[data-view=\'view-cart\']'))">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-600" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
         <span id="cart-item-count" class="font-bold text-green-700">0</span>
-        <span id="subtotal-amount" class="text-sm font-semibold text-green-800">€0.00</span>
+        <span id="subtotal-amount" class="text-sm font-semibold text-green-800">0.00€</span>
     </div>
 </div>
 
@@ -422,20 +422,6 @@
                                         <!-- ESPACIADOR -->
                     <div class="h-4"></div> 
                 </div>
-                
-                <!-- SUBTÓTAL Y BOTÓN FIJO -->
-                <section class="mt-8 mb-4">
-                    <div class="cart-summary">
-                        <h3 class="text-base font-bold text-gray-700">Subtotal en Carrito</h3>
-                        <!-- RESTAURADO a $ (el símbolo del dólar) -->
-                        <p class="text-4xl font-extrabold my-2" style="color: var(--color-primary);" id="subtotal-amount">0.00€</p>
-                        <!-- Botón de carrito, usa estilo secondary para el amarillo -->
-                        <button class="btn-main-cart" onclick="navigateTo('view-cart', this)">
-                            Ver MI Carrito (<span id="cart-item-count">0</span> platos)
-                        </button>
-                    </div>
-                </section>
-            </section>
 
             <!-- 2. VISTA: PERSONALIZAR PLATO (Oculta) -->
             <section id="view-personalize-meal" class="view hidden">
